@@ -555,6 +555,40 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     display: flex;
     flex-direction: column;
 }
+/* تنسيق رأس النافذة الجديد */
+.modal-header {
+    display: flex;
+    flex-direction: column; /* ترتيب العناصر عمودياً (فوق بعض) */
+    gap: 15px;              /* مسافة بين العنوان والصورة */
+    padding: 20px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #111 100%);
+    border-bottom: 1px solid #222;
+}
+
+/* تنسيق العنوان */
+.modal-info {
+    text-align: left; /* محاذاة لليسار كما طلبت */
+    width: 100%;
+}
+
+.modal-info h2 {
+    font-size: 24px;      /* تكبير الخط قليلاً */
+    color: #fff;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* تنسيق الصورة (كبيرة وسينمائية) */
+.modal-game-img {
+    width: 100%;          /* تأخذ عرض النافذة بالكامل */
+    height: 180px;        /* ارتفاع ثابت يعطي مظهر بانورامي */
+    object-fit: cover;    /* ملء الإطار دون مط الصورة */
+    object-position: top center; /* التركيز على الجزء العلوي من الصورة (وجوه الشخصيات) */
+    border-radius: 8px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* ظل قوي يبرز الصورة */
+    filter: brightness(0.9); /* تعتيم خفيف للجو السينمائي */
+}
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 
