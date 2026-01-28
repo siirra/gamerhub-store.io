@@ -179,6 +179,55 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     align-items: center;
     padding: 15px 50px; /* تقليل الحواف قليلاً */
 }
+/* --- تنسيق الهيدر الجديد --- */
+
+/* حاوية اللوقو والرابط */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* مسافة بين اللوقو والرابط */
+}
+
+/* الخط الفاصل العمودي */
+.vertical-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #333;
+}
+
+/* تصميم رابط المتجر الجديد (بجانب اللوقو) */
+.nav-store-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* تأثير عند مرور الماوس */
+.nav-store-link:hover {
+    color: var(--primary); /* يتحول للأخضر */
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+    transform: translateX(3px); /* يتحرك قليلاً لليمين */
+}
+
+/* تحسين استجابة الناف بار */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(10, 10, 10, 0.95); /* خلفية داكنة */
+    backdrop-filter: blur(10px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #222;
+}
 
 /* --- Footer --- */
 footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
