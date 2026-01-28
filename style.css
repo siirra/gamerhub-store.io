@@ -466,6 +466,60 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     font-size: 11px; font-weight: bold; text-decoration: none;
     transition: 0.2s; text-transform: uppercase;
 }
+/* =========================================
+   تحديث تصميم بطاقات الألعاب (لإصلاح الصور)
+========================================= */
+
+.game-card {
+    background: var(--bg-card);
+    border: 1px solid #222;
+    border-radius: 12px; /* زوايا أكثر دائرية */
+    overflow: hidden; /* مهم جداً: يقص أي شيء يخرج عن الإطار */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column; /* لضمان ترتيب العناصر عمودياً */
+}
+
+/* تأثير عند مرور الماوس على البطاقة بالكامل */
+.game-card:hover {
+    transform: translateY(-7px); /* ترتفع للأعلى */
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px -10px rgba(0, 255, 136, 0.5); /* ظل نيون ناعم */
+}
+
+/* --- إصلاح الصور --- */
+.card-img {
+    width: 100%;
+    /* 👇 الحل السحري: إزالة الارتفاع الثابت واستخدام نسبة 16:9 القياسية للألعاب */
+    aspect-ratio: 16 / 9; 
+    
+    /* يضمن ملء الإطار بالكامل دون مط الصورة */
+    object-fit: cover; 
+    
+    /* يركز الصورة في المنتصف لتقليل القص العشوائي */
+    object-position: center center; 
+    
+    /* تحسين المظهر */
+    filter: brightness(0.95); /* تعتيم بسيط جداً لجعل النصوص أبرز */
+    transition: all 0.4s ease; /* حركة ناعمة للصورة */
+    background-color: #0a0a0a; /* لون خلفية احتياطي أثناء التحميل */
+}
+
+/* تأثير تكبير الصورة عند مرور الماوس */
+.game-card:hover .card-img {
+    transform: scale(1.08); /* تكبير سينمائي بسيط */
+    filter: brightness(1.1) contrast(1.05); /* زيادة السطوع والتباين لتصبح "حية" */
+}
+
+/* بقية تنسيقات البطاقة (للتأكد من أنها متناسقة) */
+.card-body { 
+    padding: 15px; 
+    flex-grow: 1; /* يجعل هذا الجزء يملأ المساحة المتبقية */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 
