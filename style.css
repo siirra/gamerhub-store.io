@@ -589,6 +589,22 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* ظل قوي يبرز الصورة */
     filter: brightness(0.9); /* تعتيم خفيف للجو السينمائي */
 }
+/* شارة التخفيض العائمة */
+.discount-badge {
+    position: absolute; /* يجعلها تطفو فوق العناصر */
+    top: 10px;          /* المسافة من الأعلى */
+    right: 10px;        /* المسافة من اليمين */
+    
+    background: #ff4444; /* لون أحمر للتخفيضات */
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 900;
+    z-index: 10;        /* لضمان ظهورها فوق الصورة */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    pointer-events: none; /* لكي لا تعيق الضغط على البطاقة */
+}
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 

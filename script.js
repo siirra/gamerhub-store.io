@@ -2,7 +2,7 @@
 // CONFIGURATION
 // ==========================================
 const MY_AFFILIATE_ID = '?igr=gamer-1c110ad'; 
-let storesMap = {}; // لتخزين أسماء المتاجر
+let storesMap = {}; 
 
 // ==========================================
 // 1. الألعاب اليدوية (Instant Gaming)
@@ -46,7 +46,7 @@ const manualGames = [
 ];
 
 // ==========================================
-// RENDER FUNCTION (دالة العرض)
+// RENDER FUNCTION
 // ==========================================
 const grid = document.getElementById('games-grid');
 
@@ -75,11 +75,13 @@ function renderGame(game) {
         buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
     }
 
-    // عرض شارة التخفيض فقط إذا كان هناك قيمة
+    // شارة التخفيض (تأكدنا في CSS أنها ستكون فوق الصورة absolute)
     const discountBadge = game.discount ? `<div class="discount-badge" style="${game.isManual ? 'background:#ffaa00; color:#000;' : ''}">${game.discount}</div>` : '';
     const oldPriceHtml = game.oldPrice ? `<span class="old-price">${game.oldPrice}</span>` : '';
 
     card.style.cssText = cardBorder;
+    
+    // لاحظ ترتيب العناصر: Badge أولاً، ثم الصورة، ثم المحتوى
     card.innerHTML = `
         ${discountBadge}
         <img src="${highQualityImage}" alt="${game.name}" class="card-img" loading="lazy" onerror="this.src='${game.image}'">
@@ -96,7 +98,7 @@ function renderGame(game) {
 }
 
 // ==========================================
-// 2. AUTO-FETCH LOGIC (جلب البيانات تلقائياً)
+// 2. AUTO-FETCH LOGIC (مع إصلاح حساب النسبة)
 // ==========================================
 
 async function initStore() {
@@ -128,25 +130,20 @@ async function initStore() {
             if (!seenTitles.has(cleanName)) {
                 seenTitles.add(cleanName);
                 
-                // --- 🟢 حساب التخفيض يدوياً لضمان الدقة ---
-                const saleP = parseFloat(deal.salePrice);
-                const normalP = parseFloat(deal.normalPrice);
-                let discountPercent = 0;
+                // --- 🟢 الإصلاح هنا: استخدام savings من API مباشرة ---
+                // CheapShark يعطيك قيمة savings دقيقة (مثلاً "50.0000")
+                const savingsVal = parseFloat(deal.savings); 
+                const discountStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
                 
-                if (normalP > saleP && normalP > 0) {
-                    discountPercent = Math.round(((normalP - saleP) / normalP) * 100);
-                }
-                
-                // عرض التخفيض والسعر القديم فقط إذا كان هناك فرق حقيقي
-                const discountStr = discountPercent > 0 ? `-${discountPercent}%` : '';
-                const oldPriceStr = discountPercent > 0 ? `€${deal.normalPrice}` : '';
+                // إظهار السعر القديم فقط إذا كان هناك تخفيض
+                const oldPriceStr = savingsVal > 0 ? `€${deal.normalPrice}` : '';
 
                 renderGame({
                     name: deal.title,
                     image: deal.thumb,
                     price: "€" + deal.salePrice,
                     oldPrice: oldPriceStr,
-                    discount: discountStr,
+                    discount: discountStr, // القيمة الصحيحة الآن
                     gameID: deal.gameID, 
                     steamAppID: deal.steamAppID, 
                     isManual: false
@@ -158,7 +155,7 @@ async function initStore() {
 }
 
 // ==========================================
-// 3. MODAL LOGIC (منطق النافذة المنبثقة)
+// 3. MODAL LOGIC (مع إصلاح حساب النسبة في المودال)
 // ==========================================
 const modal = document.getElementById('game-modal');
 const modalList = document.getElementById('modal-deals-list');
@@ -183,16 +180,9 @@ async function openGameModal(gameID, title, image) {
         deals.forEach(deal => {
             const storeInfo = storesMap[deal.storeID] || { name: 'Store', icon: '' };
             
-            // --- 🟢 حساب التخفيض يدوياً هنا أيضاً ---
-            const price = parseFloat(deal.price);
-            const retail = parseFloat(deal.retailPrice);
-            let savingsPercent = 0;
-            
-            if (retail > price && retail > 0) {
-                savingsPercent = Math.round(((retail - price) / retail) * 100);
-            }
-            
-            const savingsStr = savingsPercent > 0 ? `-${savingsPercent}%` : '';
+            // --- 🟢 استخدام savings مباشرة ---
+            const savingsVal = parseFloat(deal.savings);
+            const savingsStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
 
             const row = document.createElement('div');
             row.className = 'deal-row';
@@ -215,7 +205,6 @@ async function openGameModal(gameID, title, image) {
     }
 }
 
-// إغلاق المودال
 if(modal) {
     document.getElementById('close-modal').onclick = () => modal.classList.remove('active');
     modal.onclick = (e) => {
@@ -223,7 +212,6 @@ if(modal) {
     };
 }
 
-// تأثير بسيط للنص
 const glitchText = document.querySelector('.glitch-text');
 if(glitchText) {
     setInterval(() => {
@@ -231,5 +219,4 @@ if(glitchText) {
     }, 100);
 }
 
-// بدء التشغيل
 initStore();
