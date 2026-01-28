@@ -96,7 +96,7 @@ function renderGame(game) {
 }
 
 // ==========================================
-// 2. AUTO-FETCH LOGIC (التعديل هنا ✅)
+// 2. AUTO-FETCH LOGIC (مع فلتر Steam فقط)
 // ==========================================
 
 async function initStore() {
@@ -115,13 +115,11 @@ async function initStore() {
     try {
         const separator = document.createElement('div');
         separator.style.cssText = "grid-column: 1 / -1; margin: 30px 0 10px; border-bottom:1px solid #333; color:#666; font-size:12px; font-weight:bold; letter-spacing:1px; text-transform:uppercase;";
-        separator.innerText = "Trending Deals (All Stores)";
+        separator.innerText = "Trending Steam Deals (Auto-Updated)";
         grid.appendChild(separator);
 
-        // 👇👇 التعديل الجذري هنا:
-        // 1. sortBy=Savings: يرتب حسب نسبة التخفيض (الأعلى أولاً)
-        // 2. onSale=1: يجلب فقط الألعاب التي عليها تخفيض حالياً
-        const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,25,7,2&upperPrice=50&sortBy=Savings&onSale=1&pageSize=100');
+        // جلب أفضل التخفيضات
+        const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,2,25,27&upperPrice=60&sortBy=Savings&onSale=1&pageSize=100');
         const deals = await res.json();
         const seenTitles = new Set();
         
@@ -129,8 +127,16 @@ async function initStore() {
             const cleanName = deal.title.toLowerCase().trim();
             const savingsVal = parseFloat(deal.savings);
 
-            // شرط إضافي: عدم عرض أي لعبة تخفيضها أقل من 10% لتجنب العروض الضعيفة
-            if (!seenTitles.has(cleanName) && savingsVal >= 10) {
+            // ================================================================
+            // 👇👇 الفلتر الجديد: شرط وجود Steam App ID 👇👇
+            // ================================================================
+            const isOnSteam = deal.steamAppID && deal.steamAppID !== "0" && deal.steamAppID !== "null";
+
+            // الشروط: 
+            // 1. لم تظهر من قبل
+            // 2. التخفيض أكثر من 10%
+            // 3. اللعبة موجودة على ستيم (isOnSteam)
+            if (!seenTitles.has(cleanName) && savingsVal >= 10 && isOnSteam) {
                 seenTitles.add(cleanName);
                 
                 const discountStr = `-${Math.round(savingsVal)}%`;
@@ -173,7 +179,6 @@ async function openGameModal(gameID, title, image) {
         
         modalList.innerHTML = ''; 
 
-        // ترتيب العروض من الأرخص للأغلى
         const deals = data.deals.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
         deals.forEach(deal => {
