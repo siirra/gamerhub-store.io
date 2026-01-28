@@ -75,13 +75,11 @@ function renderGame(game) {
         buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
     }
 
-    // شارة التخفيض (تأكدنا في CSS أنها ستكون فوق الصورة absolute)
+    // شارة التخفيض (فوق الصورة)
     const discountBadge = game.discount ? `<div class="discount-badge" style="${game.isManual ? 'background:#ffaa00; color:#000;' : ''}">${game.discount}</div>` : '';
     const oldPriceHtml = game.oldPrice ? `<span class="old-price">${game.oldPrice}</span>` : '';
 
     card.style.cssText = cardBorder;
-    
-    // لاحظ ترتيب العناصر: Badge أولاً، ثم الصورة، ثم المحتوى
     card.innerHTML = `
         ${discountBadge}
         <img src="${highQualityImage}" alt="${game.name}" class="card-img" loading="lazy" onerror="this.src='${game.image}'">
@@ -98,7 +96,7 @@ function renderGame(game) {
 }
 
 // ==========================================
-// 2. AUTO-FETCH LOGIC (مع إصلاح حساب النسبة)
+// 2. AUTO-FETCH LOGIC (التعديل هنا ✅)
 // ==========================================
 
 async function initStore() {
@@ -120,30 +118,30 @@ async function initStore() {
         separator.innerText = "Trending Deals (All Stores)";
         grid.appendChild(separator);
 
-        const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,25,7,2&upperPrice=50&sortBy=Metacritic&pageSize=100');
+        // 👇👇 التعديل الجذري هنا:
+        // 1. sortBy=Savings: يرتب حسب نسبة التخفيض (الأعلى أولاً)
+        // 2. onSale=1: يجلب فقط الألعاب التي عليها تخفيض حالياً
+        const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,25,7,2&upperPrice=50&sortBy=Savings&onSale=1&pageSize=100');
         const deals = await res.json();
         const seenTitles = new Set();
         
         deals.forEach(deal => {
             const cleanName = deal.title.toLowerCase().trim();
-            
-            if (!seenTitles.has(cleanName)) {
+            const savingsVal = parseFloat(deal.savings);
+
+            // شرط إضافي: عدم عرض أي لعبة تخفيضها أقل من 10% لتجنب العروض الضعيفة
+            if (!seenTitles.has(cleanName) && savingsVal >= 10) {
                 seenTitles.add(cleanName);
                 
-                // --- 🟢 الإصلاح هنا: استخدام savings من API مباشرة ---
-                // CheapShark يعطيك قيمة savings دقيقة (مثلاً "50.0000")
-                const savingsVal = parseFloat(deal.savings); 
-                const discountStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
-                
-                // إظهار السعر القديم فقط إذا كان هناك تخفيض
-                const oldPriceStr = savingsVal > 0 ? `€${deal.normalPrice}` : '';
+                const discountStr = `-${Math.round(savingsVal)}%`;
+                const oldPriceStr = `€${deal.normalPrice}`;
 
                 renderGame({
                     name: deal.title,
                     image: deal.thumb,
                     price: "€" + deal.salePrice,
                     oldPrice: oldPriceStr,
-                    discount: discountStr, // القيمة الصحيحة الآن
+                    discount: discountStr,
                     gameID: deal.gameID, 
                     steamAppID: deal.steamAppID, 
                     isManual: false
@@ -155,7 +153,7 @@ async function initStore() {
 }
 
 // ==========================================
-// 3. MODAL LOGIC (مع إصلاح حساب النسبة في المودال)
+// 3. MODAL LOGIC
 // ==========================================
 const modal = document.getElementById('game-modal');
 const modalList = document.getElementById('modal-deals-list');
@@ -175,12 +173,11 @@ async function openGameModal(gameID, title, image) {
         
         modalList.innerHTML = ''; 
 
+        // ترتيب العروض من الأرخص للأغلى
         const deals = data.deals.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
         deals.forEach(deal => {
             const storeInfo = storesMap[deal.storeID] || { name: 'Store', icon: '' };
-            
-            // --- 🟢 استخدام savings مباشرة ---
             const savingsVal = parseFloat(deal.savings);
             const savingsStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
 
