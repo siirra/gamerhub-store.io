@@ -2,7 +2,7 @@
 // CONFIGURATION
 // ==========================================
 const MY_AFFILIATE_ID = '?igr=gamer-1c110ad'; 
-let storesMap = {}; // لتخزين أسماء المتاجر (1 = Steam, etc.)
+let storesMap = {}; // لتخزين أسماء المتاجر
 
 // ==========================================
 // 1. الألعاب اليدوية (Instant Gaming)
@@ -56,40 +56,30 @@ function renderGame(game) {
     const card = document.createElement('div');
     card.className = 'game-card';
     
-    // --------------------------------------------------------
-    // منطق الصور عالية الجودة (Steam Header)
-    // --------------------------------------------------------
+    // منطق الصور عالية الجودة
     let highQualityImage = game.image;
-
-    // إذا كانت اللعبة تلقائية ولديها معرف ستيم، نستخدم صورة الهيدر عالية الدقة
     if (!game.isManual && game.steamAppID && game.steamAppID !== "null" && game.steamAppID !== "0") {
         highQualityImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.steamAppID}/header.jpg`;
     }
 
-    // --------------------------------------------------------
-    // إعداد الرابط أو الزر
-    // --------------------------------------------------------
+    // إعداد الرابط والزر
     let buttonHtml = '';
     let cardBorder = '';
     
     if (game.isManual) {
-        // للألعاب اليدوية: رابط مباشر مع كود الأفيلييت
         const finalLink = game.link + MY_AFFILIATE_ID;
         buttonHtml = `<a href="${finalLink}" target="_blank" class="btn-buy" style="background:#ffaa00; color:#000; border-color:#ffaa00;">BEST DEAL ⭐</a>`;
         cardBorder = "border: 1px solid #ffaa00;";
     } else {
-        // للألعاب التلقائية: زر يفتح النافذة المنبثقة
-        // نقوم بتنظيف الاسم من علامات الاقتباس لتجنب أخطاء الجافاسكريبت
         const safeName = game.name.replace(/'/g, "\\'");
         buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
     }
 
+    // عرض شارة التخفيض فقط إذا كان هناك قيمة
     const discountBadge = game.discount ? `<div class="discount-badge" style="${game.isManual ? 'background:#ffaa00; color:#000;' : ''}">${game.discount}</div>` : '';
     const oldPriceHtml = game.oldPrice ? `<span class="old-price">${game.oldPrice}</span>` : '';
 
-    // تطبيق التنسيق (الإطار الذهبي لليدوي)
     card.style.cssText = cardBorder;
-
     card.innerHTML = `
         ${discountBadge}
         <img src="${highQualityImage}" alt="${game.name}" class="card-img" loading="lazy" onerror="this.src='${game.image}'">
@@ -112,10 +102,8 @@ function renderGame(game) {
 async function initStore() {
     if (!grid) return;
 
-    // 1. عرض الألعاب اليدوية أولاً
     manualGames.forEach(g => renderGame(g));
 
-    // 2. جلب أسماء المتاجر (لنعرف أن المتجر رقم 1 هو Steam، إلخ)
     try {
         const storeRes = await fetch('https://www.cheapshark.com/api/1.0/stores');
         const stores = await storeRes.json();
@@ -124,19 +112,14 @@ async function initStore() {
         });
     } catch(e) {}
 
-    // 3. جلب العروض التلقائية
     try {
-        // فاصل جمالي
         const separator = document.createElement('div');
         separator.style.cssText = "grid-column: 1 / -1; margin: 30px 0 10px; border-bottom:1px solid #333; color:#666; font-size:12px; font-weight:bold; letter-spacing:1px; text-transform:uppercase;";
         separator.innerText = "Trending Deals (All Stores)";
         grid.appendChild(separator);
 
-        // جلب 100 لعبة لضمان التنوع
         const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,25,7,2&upperPrice=50&sortBy=Metacritic&pageSize=100');
         const deals = await res.json();
-
-        // **فلترة التكرار**: نستخدم Set لتخزين العناوين
         const seenTitles = new Set();
         
         deals.forEach(deal => {
@@ -145,14 +128,27 @@ async function initStore() {
             if (!seenTitles.has(cleanName)) {
                 seenTitles.add(cleanName);
                 
+                // --- 🟢 حساب التخفيض يدوياً لضمان الدقة ---
+                const saleP = parseFloat(deal.salePrice);
+                const normalP = parseFloat(deal.normalPrice);
+                let discountPercent = 0;
+                
+                if (normalP > saleP && normalP > 0) {
+                    discountPercent = Math.round(((normalP - saleP) / normalP) * 100);
+                }
+                
+                // عرض التخفيض والسعر القديم فقط إذا كان هناك فرق حقيقي
+                const discountStr = discountPercent > 0 ? `-${discountPercent}%` : '';
+                const oldPriceStr = discountPercent > 0 ? `€${deal.normalPrice}` : '';
+
                 renderGame({
                     name: deal.title,
                     image: deal.thumb,
                     price: "€" + deal.salePrice,
-                    oldPrice: "€" + deal.normalPrice,
-                    discount: "-" + Math.round(deal.savings) + "%",
+                    oldPrice: oldPriceStr,
+                    discount: discountStr,
                     gameID: deal.gameID, 
-                    steamAppID: deal.steamAppID, // هام جداً للصور عالية الدقة
+                    steamAppID: deal.steamAppID, 
                     isManual: false
                 });
             }
@@ -170,28 +166,34 @@ const modalList = document.getElementById('modal-deals-list');
 async function openGameModal(gameID, title, image) {
     if(!modal) return;
     
-    // تعبئة البيانات الأساسية في المودال
     document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-img').src = image; // نستخدم الصورة الكبيرة هنا
+    document.getElementById('modal-img').src = image; 
     modalList.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Fetching live prices...</p>';
     
-    // إظهار النافذة
     modal.classList.add('active');
 
-    // جلب قائمة الأسعار الكاملة للعبة
     try {
         const res = await fetch(`https://www.cheapshark.com/api/1.0/games?id=${gameID}`);
         const data = await res.json();
         
         modalList.innerHTML = ''; 
 
-        // ترتيب العروض من الأرخص للأغلى
         const deals = data.deals.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
         deals.forEach(deal => {
             const storeInfo = storesMap[deal.storeID] || { name: 'Store', icon: '' };
-            const savings = parseFloat(deal.savings) > 0 ? `-${Math.round(deal.savings)}%` : '';
             
+            // --- 🟢 حساب التخفيض يدوياً هنا أيضاً ---
+            const price = parseFloat(deal.price);
+            const retail = parseFloat(deal.retailPrice);
+            let savingsPercent = 0;
+            
+            if (retail > price && retail > 0) {
+                savingsPercent = Math.round(((retail - price) / retail) * 100);
+            }
+            
+            const savingsStr = savingsPercent > 0 ? `-${savingsPercent}%` : '';
+
             const row = document.createElement('div');
             row.className = 'deal-row';
             row.innerHTML = `
@@ -200,7 +202,7 @@ async function openGameModal(gameID, title, image) {
                     ${storeInfo.name}
                 </div>
                 <div class="deal-actions">
-                    ${savings ? `<span class="deal-discount">${savings}</span>` : ''}
+                    ${savingsStr ? `<span class="deal-discount">${savingsStr}</span>` : ''}
                     <span class="deal-price">$${deal.price}</span>
                     <a href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}" target="_blank" class="btn-go-deal">GO ↗</a>
                 </div>
@@ -216,14 +218,12 @@ async function openGameModal(gameID, title, image) {
 // إغلاق المودال
 if(modal) {
     document.getElementById('close-modal').onclick = () => modal.classList.remove('active');
-    
-    // إغلاق عند الضغط في الفراغ الخارجي
     modal.onclick = (e) => {
         if(e.target === modal) modal.classList.remove('active');
     };
 }
 
-// تأثير بسيط للنص في الصفحة الرئيسية (اختياري)
+// تأثير بسيط للنص
 const glitchText = document.querySelector('.glitch-text');
 if(glitchText) {
     setInterval(() => {
