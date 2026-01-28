@@ -228,6 +228,49 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     z-index: 1000;
     border-bottom: 1px solid #222;
 }
+/* --- زر المتجر الجديد (بجانب اللوقو) --- */
+
+.nav-store-link {
+    /* الشكل الهندسي للزر */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    
+    /* الألوان والحدود (ستايل نيون ناري) */
+    background: rgba(255, 170, 0, 0.1); /* خلفية شفافة خفيفة */
+    border: 1px solid #ffaa00;          /* حدود برتقالية */
+    color: #ffaa00;                     /* لون النص */
+    
+    /* الخطوط */
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    
+    /* الحواف والتأثيرات */
+    border-radius: 50px; /* حواف دائرية بالكامل */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* حركة مرنة */
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.1); /* ظل خفيف */
+    
+    /* لمنع التصاق النص بالحواف */
+    white-space: nowrap;
+}
+
+/* تأثير عند مرور الماوس (يتحول لكتلة مضيئة) */
+.nav-store-link:hover {
+    background: #ffaa00;       /* تعبئة كاملة باللون */
+    color: #000;               /* النص يصبح أسود للتباين */
+    box-shadow: 0 0 25px rgba(255, 170, 0, 0.6); /* توهج قوي جداً */
+    transform: translateY(-2px) scale(1.05); /* يرتفع ويكبر قليلاً */
+    border-color: #ffaa00;
+}
+
+/* تأثير الضغط */
+.nav-store-link:active {
+    transform: translateY(1px) scale(0.98);
+}
 
 /* --- Footer --- */
 footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
