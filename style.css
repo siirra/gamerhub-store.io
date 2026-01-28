@@ -1,3 +1,402 @@
+:root {
+    --primary: #00ff88;
+    --primary-dim: rgba(0, 255, 136, 0.1);
+    --bg-dark: #0a0a0a;
+    --bg-card: #161616;
+    --text-white: #ffffff;
+    --text-gray: #aaaaaa;
+    --neon-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: hidden; }
+
+/* --- Navbar --- */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 50px; position: fixed; width: 100%; top: 0;
+    background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px);
+    z-index: 1000; border-bottom: 1px solid #222;
+}
+
+.logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+.logo span { color: var(--primary); text-shadow: var(--neon-shadow); }
+
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a { text-decoration: none; color: #fff; font-weight: 500; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
+.nav-links a:hover { color: var(--primary); }
+.store-link { color: #ffaa00 !important; font-weight: bold !important; }
+
+.btn-download {
+    padding: 10px 25px; background: var(--primary); color: #000;
+    text-decoration: none; font-weight: 900; border-radius: 4px;
+    box-shadow: 0 0 15px var(--primary-dim); transition: 0.3s;
+    text-transform: uppercase; font-size: 12px;
+}
+.btn-download:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--primary); }
+
+/* --- Hero Section --- */
+.hero {
+    height: 100vh; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 10%; position: relative;
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0a0a0a 70%);
+}
+
+.hero-content { max-width: 600px; z-index: 2; }
+
+.hero h1 {
+    font-size: 60px; line-height: 1.1; font-weight: 900; margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.hero p { color: var(--text-gray); font-size: 18px; margin-bottom: 30px; }
+
+.hero-btns { display: flex; gap: 15px; margin-bottom: 40px; }
+
+.btn-main {
+    padding: 15px 40px; background: transparent; color: var(--primary);
+    border: 2px solid var(--primary); font-weight: 900; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    box-shadow: inset 0 0 20px var(--primary-dim);
+}
+.btn-main:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); }
+
+.btn-outline {
+    padding: 15px 40px; background: #222; color: #fff;
+    text-decoration: none; font-weight: bold; text-transform: uppercase;
+    transition: 0.3s; border: 1px solid #333;
+}
+.btn-outline:hover { background: #333; border-color: #555; }
+
+.stats-row { display: flex; gap: 30px; border-top: 1px solid #333; padding-top: 20px; }
+.stat { font-size: 12px; color: #666; text-transform: uppercase; }
+.stat span { display: block; font-size: 24px; color: #fff; font-weight: bold; margin-bottom: 5px; }
+
+/* Mockup (شكل الإضافة) */
+.hero-image { position: relative; z-index: 1; }
+.mockup-box {
+    width: 350px; height: 500px; background: #000;
+    border: 1px solid #333; border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0, 255, 136, 0.1);
+    position: relative; overflow: hidden;
+    transform: rotate(-5deg); transition: 0.5s;
+}
+.mockup-box:hover { transform: rotate(0deg) scale(1.02); }
+.mockup-screen {
+    width: 100%; height: 100%;
+    background: url('https://i.imgur.com/screenshot-placeholder.png') center/cover; /* ضع رابط صورة إضافتك هنا */
+    opacity: 0.8;
+}
+
+/* --- Store Section --- */
+.store-section { padding: 80px 10%; background: #0d0d0d; }
+.section-title { font-size: 40px; text-align: center; margin-bottom: 10px; font-weight: 900; }
+.section-subtitle { text-align: center; color: #666; margin-bottom: 50px; }
+
+.games-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.game-card {
+    background: var(--bg-card); border: 1px solid #222;
+    border-radius: 10px; overflow: hidden; transition: 0.3s;
+    position: relative;
+}
+.game-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 0 20px var(--primary-dim); }
+
+.card-img { width: 100%; height: 150px; object-fit: cover; }
+.card-body { padding: 15px; }
+.card-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.price { font-size: 18px; color: var(--primary); font-weight: bold; }
+.old-price { font-size: 12px; color: #555; text-decoration: line-through; }
+
+.btn-buy {
+    display: block; width: 100%; text-align: center; margin-top: 15px;
+    padding: 10px; background: #222; color: #fff; text-decoration: none;
+    font-weight: bold; font-size: 12px; border: 1px solid #333; transition: 0.3s;
+    text-transform: uppercase;
+}
+.btn-buy:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+
+.discount-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: #ff4444; color: #fff; font-size: 10px; font-weight: bold;
+    padding: 3px 6px; border-radius: 3px;
+}
+/* جعل رابط اللوقو يبدو كزر حقيقي */
+.logo-link {
+    text-decoration: none; /* إزالة الخط السفلي */
+    color: inherit;       /* يرث اللون الأبيض */
+    cursor: pointer;      /* يظهر شكل اليد عند المرور */
+    transition: transform 0.3s ease; /* تنعيم الحركة */
+    display: inline-block;
+}
+
+/* تأثير التوهج والتكبير عند مرور الماوس على اللوقو */
+.logo-link:hover {
+    transform: scale(1.1); /* تكبير بسيط */
+}
+
+.logo-link:hover .logo span {
+    text-shadow: 0 0 15px var(--primary); /* زيادة توهج الحرف H */
+}
+/* --- تنسيقات الهيدر الجديد للمتجر --- */
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* مسافة بين اللوقو والعنوان */
+}
+
+/* خط فاصل عمودي صغير بين اللوقو والعنوان (لمسة جمالية) */
+.vertical-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #333;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* لجعل كلمة Deals بلون مختلف إذا أردت، أو اتركها بيضاء */
+}
+
+/* تحسين شكل اللوقو قليلاً */
+.logo {
+    font-size: 28px; /* تكبير بسيط */
+}
+
+/* التأكد أن الناف بار يحافظ على التوزيع */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px; /* تقليل الحواف قليلاً */
+}
+/* --- تنسيق الهيدر الجديد --- */
+
+/* حاوية اللوقو والرابط */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* مسافة بين اللوقو والرابط */
+}
+
+/* الخط الفاصل العمودي */
+.vertical-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #333;
+}
+
+/* تصميم رابط المتجر الجديد (بجانب اللوقو) */
+.nav-store-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* تأثير عند مرور الماوس */
+.nav-store-link:hover {
+    color: var(--primary); /* يتحول للأخضر */
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+    transform: translateX(3px); /* يتحرك قليلاً لليمين */
+}
+
+/* تحسين استجابة الناف بار */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(10, 10, 10, 0.95); /* خلفية داكنة */
+    backdrop-filter: blur(10px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #222;
+}
+/* --- زر المتجر الجديد (بجانب اللوقو) --- */
+
+.nav-store-link {
+    /* الشكل الهندسي للزر */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    
+    /* الألوان والحدود (ستايل نيون ناري) */
+    background: rgba(255, 170, 0, 0.1); /* خلفية شفافة خفيفة */
+    border: 1px solid #ffaa00;          /* حدود برتقالية */
+    color: #ffaa00;                     /* لون النص */
+    
+    /* الخطوط */
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    
+    /* الحواف والتأثيرات */
+    border-radius: 50px; /* حواف دائرية بالكامل */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* حركة مرنة */
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.1); /* ظل خفيف */
+    
+    /* لمنع التصاق النص بالحواف */
+    white-space: nowrap;
+}
+
+/* تأثير عند مرور الماوس (يتحول لكتلة مضيئة) */
+.nav-store-link:hover {
+    background: #ffaa00;       /* تعبئة كاملة باللون */
+    color: #000;               /* النص يصبح أسود للتباين */
+    box-shadow: 0 0 25px rgba(255, 170, 0, 0.6); /* توهج قوي جداً */
+    transform: translateY(-2px) scale(1.05); /* يرتفع ويكبر قليلاً */
+    border-color: #ffaa00;
+}
+
+/* تأثير الضغط */
+.nav-store-link:active {
+    transform: translateY(1px) scale(0.98);
+}
+/* --- Navbar Layout --- */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* يوزع العناصر (يسار - يمين) */
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed; width: 100%; top: 0; z-index: 1000;
+    border-bottom: 1px solid #222;
+}
+
+/* الحاوية اليسرى (اللوقو + الزر) */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* مسافة جيدة بين اللوقو والزر */
+}
+
+.vertical-divider {
+    width: 1px; height: 30px; background: #333;
+}
+
+/* --- تصميم زر المتجر النيون (Nav Store Button) --- */
+.nav-store-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 25px; /* حجم الزر */
+    
+    background: rgba(255, 170, 0, 0.05); /* خلفية شفافة جداً */
+    border: 1px solid #ffaa00;          /* حدود برتقالية */
+    color: #ffaa00;                     /* لون النص */
+    
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    border-radius: 50px; /* كبسولة */
+    
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.1); /* توهج خفيف */
+}
+
+/* تأثير الهوفر (يشتعل الزر) */
+.nav-store-btn:hover, .nav-store-btn.active {
+    background: #ffaa00;       /* يمتلئ باللون */
+    color: #000;               /* النص أسود */
+    box-shadow: 0 0 30px rgba(255, 170, 0, 0.6); /* توهج قوي */
+    transform: translateY(-2px);
+    border-color: #ffaa00;
+}
+
+.nav-store-btn:active {
+    transform: scale(0.95);
+}
+/* --- Modal Styles --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+    z-index: 9999; display: none; /* مخفية افتراضياً */
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active { display: flex; opacity: 1; }
+
+.modal-content {
+    background: #111; width: 90%; max-width: 600px;
+    border: 1px solid #333; border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.1);
+    position: relative; overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.close-btn {
+    position: absolute; top: 15px; right: 15px;
+    background: none; border: none; color: #fff;
+    font-size: 24px; cursor: pointer; z-index: 10;
+    transition: 0.2s;
+}
+.close-btn:hover { color: #ff4444; transform: scale(1.2); }
+
+.modal-header {
+    display: flex; gap: 20px; padding: 25px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #111 100%);
+    border-bottom: 1px solid #222; align-items: center;
+}
+
+.modal-game-img {
+    width: 100px; height: 140px; object-fit: cover;
+    border-radius: 8px; border: 1px solid #333;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.modal-info h2 { font-size: 22px; color: #fff; margin-bottom: 5px; }
+.modal-subtitle { color: #888; font-size: 13px; }
+
+.modal-deals-grid {
+    padding: 20px; max-height: 400px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 10px;
+}
+
+/* الصف الخاص بكل متجر داخل النافذة */
+.deal-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #161616; padding: 12px 15px;
+    border-radius: 8px; border: 1px solid #252525;
+    transition: 0.2s;
+}
+.deal-row:hover { border-color: #00ff88; transform: translateX(5px); }
+
+.store-name { font-weight: bold; color: #ccc; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+.store-icon-img { width: 20px; height: 20px; border-radius: 4px; }
+
+.deal-actions { display: flex; align-items: center; gap: 15px; }
+.deal-discount { background: #ff4444; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+.deal-price { color: #00ff88; font-size: 16px; font-weight: 900; }
+
+.btn-go-deal {
+    background: transparent; border: 1px solid #00ff88;
+    color: #00ff88; padding: 5px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: bold; text-decoration: none;
+    transition: 0.2s; text-transform: uppercase;
+}
 /* --- Modal Styles --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -68,3 +467,12 @@
     transition: 0.2s; text-transform: uppercase;
 }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
+.btn-go-deal:hover { background: #00ff88; color: #000; }
+
+/* --- Footer --- */
+footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
+.footer-logo { font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+.footer-logo span { color: var(--primary); }
+.social-links { margin-top: 20px; display: flex; justify-content: center; gap: 20px; }
+.social-links a { color: #666; text-decoration: none; font-size: 12px; transition: 0.3s; }
+.social-links a:hover { color: var(--primary); }
