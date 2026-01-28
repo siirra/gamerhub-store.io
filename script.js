@@ -3,15 +3,6 @@
 // ==========================================
 const MY_IG_ID = '?igr=gamer-1c110ad'; // كودك في Instant Gaming
 
-// خريطة المتاجر (تستخدم فقط لعرض الأيقونات والأسماء)
-const AFFILIATE_STORES = {
-    "default": {
-        url: "https://www.instant-gaming.com/en/search/?q={GAME_NAME}" + MY_IG_ID
-    }
-};
-
-let storesMap = {}; 
-
 // ==========================================
 // 1. الألعاب اليدوية (Instant Gaming)
 // ==========================================
@@ -53,13 +44,7 @@ const manualGames = [
     }
 ];
 
-// ==========================================
-// HELPER: SMART LINK GENERATOR
-// ==========================================
-function getSmartAffiliateLink(gameName) {
-    const cleanName = encodeURIComponent(gameName.trim());
-    return AFFILIATE_STORES["default"].url.replace("{GAME_NAME}", cleanName);
-}
+let storesMap = {}; 
 
 // ==========================================
 // RENDER FUNCTION
@@ -72,6 +57,7 @@ function renderGame(game) {
     const card = document.createElement('div');
     card.className = 'game-card';
     
+    // صورة عالية الجودة
     let highQualityImage = game.image;
     if (!game.isManual && game.steamAppID && game.steamAppID !== "null" && game.steamAppID !== "0") {
         highQualityImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.steamAppID}/header.jpg`;
@@ -163,7 +149,7 @@ async function initStore() {
 }
 
 // ==========================================
-// 3. MODAL LOGIC (تم تفعيل الدخول المباشر "I'm Feeling Lucky")
+// 3. MODAL LOGIC (الحل المتكامل للروابط)
 // ==========================================
 const modal = document.getElementById('game-modal');
 const modalList = document.getElementById('modal-deals-list');
@@ -194,24 +180,23 @@ async function openGameModal(gameID, title, image, steamAppID) {
             let buttonText = "GO ↗";
             let buttonStyle = "";
 
-            // --- الحالة 1: Instant Gaming (رابطك الربحي) ---
+            // --- الحالة 1: Instant Gaming (رابطك الربحي - بحث) ---
+            // هنا لا نملك رابط مباشر، لذا نستخدم البحث وهذا ممتاز للأفيلييت
             if (storeInfo.name.toLowerCase().includes('instant') || deal.storeID === "25") {
                 const cleanName = encodeURIComponent(title.trim());
                 finalLink = `https://www.instant-gaming.com/en/search/?q=${cleanName}${MY_IG_ID}`;
                 buttonText = "Buy Now ⭐";
                 buttonStyle = "border-color: #ffaa00; color: #ffaa00;";
             } 
-            // --- الحالة 2: Steam (رابط مباشر نظيف) ---
+            // --- الحالة 2: Steam (رابط مباشر نظيف بدون CheapShark) ---
             else if (deal.storeID === "1" && steamAppID && steamAppID !== "null") {
                 finalLink = `https://store.steampowered.com/app/${steamAppID}`;
                 buttonText = "Steam ↗";
             }
-            // --- الحالة 3: باقي المتاجر (الدخول المباشر لأول نتيجة بحث) ---
+            // --- الحالة 3: باقي المتاجر (استخدام Redirect CheapShark) ---
+            // هذا الرابط يأخذك للصفحة المباشرة للعبة في المتجر بدقة 100%
             else {
-                // نستخدم ميزة !ducky للدخول المباشر لأول نتيجة بحث
-                // الصيغة: !ducky + اسم اللعبة + اسم المتجر + كلمة buy
-                const query = `!ducky ${title} ${storeInfo.name} Buy`;
-                finalLink = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+                finalLink = `https://www.cheapshark.com/redirect?dealID=${deal.dealID}`;
                 buttonText = "GO ↗"; 
             }
 
