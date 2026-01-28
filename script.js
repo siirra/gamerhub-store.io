@@ -1,21 +1,7 @@
 // ==========================================
-// CONFIGURATION & AFFILIATE SYSTEM
+// CONFIGURATION
 // ==========================================
-const MY_IG_ID = '?igr=gamer-1c110ad'; // كودك في Instant Gaming
-
-// خريطة المتاجر: هنا يمكنك إضافة روابط البحث لمتاجر أخرى مستقبلاً
-// حالياً، جعلت "الافتراضي" هو Instant Gaming لضمان الربح من كل النقرات
-const AFFILIATE_STORES = {
-    // إعدادات البحث الذكي
-    "default": {
-        // رابط البحث في Instant Gaming مع كودك
-        url: "https://www.instant-gaming.com/en/search/?q={GAME_NAME}" + MY_IG_ID
-    },
-    
-    // مثال: لو حصلت مستقبلاً على كود Eneba، يمكنك تفعيل هذا السطر:
-    // "eneba": { url: "https://www.eneba.com/store?text={GAME_NAME}&af_id=YOUR_ID" }
-};
-
+const MY_IG_ID = '?igr=gamer-1c110ad'; 
 let storesMap = {}; 
 
 // ==========================================
@@ -60,20 +46,7 @@ const manualGames = [
 ];
 
 // ==========================================
-// HELPER: SMART LINK GENERATOR (المولد الذكي)
-// ==========================================
-function getSmartAffiliateLink(gameName) {
-    // 1. تنظيف اسم اللعبة ليكون مناسباً للرابط
-    // نحول المسافات إلى %20 ونحذف الرموز الغريبة
-    const cleanName = encodeURIComponent(gameName.trim());
-    
-    // 2. استخدام القالب الافتراضي (Instant Gaming)
-    // سيتم استبدال {GAME_NAME} باسم اللعبة الفعلي
-    return AFFILIATE_STORES["default"].url.replace("{GAME_NAME}", cleanName);
-}
-
-// ==========================================
-// RENDER FUNCTION
+// RENDER FUNCTION (دالة العرض)
 // ==========================================
 const grid = document.getElementById('games-grid');
 
@@ -83,13 +56,13 @@ function renderGame(game) {
     const card = document.createElement('div');
     card.className = 'game-card';
     
-    // صورة Steam عالية الجودة
+    // منطق الصور عالية الجودة
     let highQualityImage = game.image;
     if (!game.isManual && game.steamAppID && game.steamAppID !== "null" && game.steamAppID !== "0") {
         highQualityImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.steamAppID}/header.jpg`;
     }
 
-    // إعداد الزر والرابط
+    // إعداد الرابط والزر
     let buttonHtml = '';
     let cardBorder = '';
     
@@ -99,15 +72,10 @@ function renderGame(game) {
         buttonHtml = `<a href="${finalLink}" target="_blank" class="btn-buy" style="background:#ffaa00; color:#000; border-color:#ffaa00;">BEST DEAL ⭐</a>`;
         cardBorder = "border: 1px solid #ffaa00;";
     } else {
-        // الألعاب التلقائية: هنا نطبق الحيلة!
-        // نولد رابط بحث ذكي في Instant Gaming
-        const smartLink = getSmartAffiliateLink(game.name);
-        
-        // الزر الآن يفتح رابط الأفيلييت الخاص بك بدلاً من المودال
-        // غيرت النص إلى "Check Price" ليكون أكثر إثارة للفضول
-        buttonHtml = `<a href="${smartLink}" target="_blank" class="btn-buy">Check Price ↗</a>`;
-        
-        // ملاحظة: إذا كنت مازلت تريد المودال، يمكنك استرجاعه، لكن الأفضل للربح هو الرابط المباشر
+        // الألعاب التلقائية: استرجاع زر النافذة المنبثقة (Popup)
+        const safeName = game.name.replace(/'/g, "\\'");
+        // 👇 هنا تم الإصلاح: الزر يفتح المودال بدلاً من التحويل المباشر
+        buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
     }
 
     const discountBadge = game.discount ? `<div class="discount-badge" style="${game.isManual ? 'background:#ffaa00; color:#000;' : ''}">${game.discount}</div>` : '';
@@ -139,7 +107,7 @@ async function initStore() {
     // عرض اليدوي
     manualGames.forEach(g => renderGame(g));
 
-    // جلب أسماء المتاجر (احتياطي)
+    // جلب أسماء المتاجر
     try {
         const storeRes = await fetch('https://www.cheapshark.com/api/1.0/stores');
         const stores = await storeRes.json();
@@ -154,7 +122,7 @@ async function initStore() {
         separator.innerText = "Trending Steam Deals (Auto-Updated)";
         grid.appendChild(separator);
 
-        // جلب أفضل التخفيضات
+        // جلب العروض
         const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1,2,25,27&upperPrice=60&sortBy=Savings&onSale=1&pageSize=100');
         const deals = await res.json();
         const seenTitles = new Set();
@@ -163,7 +131,7 @@ async function initStore() {
             const cleanName = deal.title.toLowerCase().trim();
             const savingsVal = parseFloat(deal.savings);
 
-            // شرط: وجود Steam ID + تخفيض جيد
+            // شرط وجود Steam ID والتخفيض
             const isOnSteam = deal.steamAppID && deal.steamAppID !== "0" && deal.steamAppID !== "null";
 
             if (!seenTitles.has(cleanName) && savingsVal >= 10 && isOnSteam) {
@@ -175,7 +143,7 @@ async function initStore() {
                 renderGame({
                     name: deal.title,
                     image: deal.thumb,
-                    price: "€" + deal.salePrice, // هذا السعر للعرض فقط
+                    price: "€" + deal.salePrice,
                     oldPrice: oldPriceStr,
                     discount: discountStr,
                     gameID: deal.gameID, 
@@ -189,9 +157,68 @@ async function initStore() {
 }
 
 // ==========================================
+// 3. MODAL LOGIC (استرجاع منطق النافذة)
+// ==========================================
+const modal = document.getElementById('game-modal');
+const modalList = document.getElementById('modal-deals-list');
+
+async function openGameModal(gameID, title, image) {
+    if(!modal) return;
+    
+    // تعبئة البيانات الأساسية
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-img').src = image; 
+    modalList.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Fetching live prices...</p>';
+    
+    // إظهار النافذة
+    modal.classList.add('active');
+
+    try {
+        const res = await fetch(`https://www.cheapshark.com/api/1.0/games?id=${gameID}`);
+        const data = await res.json();
+        
+        modalList.innerHTML = ''; 
+
+        // ترتيب العروض
+        const deals = data.deals.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+        deals.forEach(deal => {
+            const storeInfo = storesMap[deal.storeID] || { name: 'Store', icon: '' };
+            const savingsVal = parseFloat(deal.savings);
+            const savingsStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
+
+            const row = document.createElement('div');
+            row.className = 'deal-row';
+            row.innerHTML = `
+                <div class="store-name">
+                    <img src="${storeInfo.icon}" class="store-icon-img" onerror="this.style.display='none'">
+                    ${storeInfo.name}
+                </div>
+                <div class="deal-actions">
+                    ${savingsStr ? `<span class="deal-discount">${savingsStr}</span>` : ''}
+                    <span class="deal-price">$${deal.price}</span>
+                    <a href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}" target="_blank" class="btn-go-deal">GO ↗</a>
+                </div>
+            `;
+            modalList.appendChild(row);
+        });
+
+    } catch(e) {
+        modalList.innerHTML = '<p style="text-align:center; color:#ff4444;">Failed to load deals.</p>';
+    }
+}
+
+// إغلاق المودال
+if(modal) {
+    document.getElementById('close-modal').onclick = () => modal.classList.remove('active');
+    modal.onclick = (e) => {
+        if(e.target === modal) modal.classList.remove('active');
+    };
+}
+
+// ==========================================
 // 4. SMART SEARCH SYSTEM (البحث العلوي)
 // ==========================================
-
 const searchInput = document.getElementById('store-search-input');
 const searchDropdown = document.getElementById('search-results-dropdown');
 let searchTimeout = null;
@@ -238,21 +265,20 @@ async function performSearch(query) {
             const item = document.createElement('div');
             item.className = 'search-item';
             
-            // عند الضغط على نتيجة البحث، نستخدم الرابط الذكي أيضاً!
-            const smartLink = getSmartAffiliateLink(game.external);
-
+            // 👇 هنا تم التعديل: عند الضغط على نتيجة البحث، نفتح المودال أيضاً
+            const safeName = game.external.replace(/'/g, "\\'");
+            
             item.onclick = () => {
-                // فتح الرابط الربحي في تبويب جديد
-                window.open(smartLink, '_blank');
+                openGameModal(game.gameID, safeName, game.thumb); // فتح النافذة
                 searchDropdown.classList.remove('active');
-                searchInput.value = ''; 
+                searchInput.value = ''; // تفريغ الحقل
             };
 
             item.innerHTML = `
                 <img src="${game.thumb}" alt="${game.external}">
                 <div class="search-item-info">
                     <span class="search-item-title">${game.external}</span>
-                    <span class="search-item-price">Check Price ↗</span>
+                    <span class="search-item-price">Best: $${game.cheapest}</span>
                 </div>
             `;
             
