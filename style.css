@@ -520,6 +520,41 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     flex-direction: column;
     justify-content: space-between;
 }
+/* =========================================
+   تعديل عرض البطاقات والصور (Wider Cards)
+========================================= */
+
+.games-grid {
+    display: grid;
+    /* 👇 التعديل الأول: زيادة الحد الأدنى للعرض من 250px إلى 300px أو 320px */
+    /* هذا سيجبر البطاقات أن تكون عريضة "طويلة من الجانبين" */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 25px;
+}
+
+.card-img {
+    width: 100%;
+    /* 👇 التعديل الثاني: تغيير النسبة من 16/9 إلى 2/1 (أعرض قليلاً) */
+    /* هذا يجعل الصورة مستطيلة أكثر بالعرض، مما يقلل القص الجانبي */
+    aspect-ratio: 2 / 1; 
+    
+    object-fit: cover; 
+    object-position: center center; 
+    filter: brightness(0.95); 
+    transition: all 0.4s ease; 
+    background-color: #0a0a0a; 
+}
+
+/* تحسين شكل البطاقة لتناسب العرض الجديد */
+.game-card {
+    background: var(--bg-card);
+    border: 1px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+}
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 
