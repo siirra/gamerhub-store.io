@@ -143,6 +143,42 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
 .logo-link:hover .logo span {
     text-shadow: 0 0 15px var(--primary); /* زيادة توهج الحرف H */
 }
+/* --- تنسيقات الهيدر الجديد للمتجر --- */
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* مسافة بين اللوقو والعنوان */
+}
+
+/* خط فاصل عمودي صغير بين اللوقو والعنوان (لمسة جمالية) */
+.vertical-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #333;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* لجعل كلمة Deals بلون مختلف إذا أردت، أو اتركها بيضاء */
+}
+
+/* تحسين شكل اللوقو قليلاً */
+.logo {
+    font-size: 28px; /* تكبير بسيط */
+}
+
+/* التأكد أن الناف بار يحافظ على التوزيع */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px; /* تقليل الحواف قليلاً */
+}
 
 /* --- Footer --- */
 footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
