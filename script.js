@@ -3,6 +3,15 @@
 // ==========================================
 const MY_IG_ID = '?igr=gamer-1c110ad'; // كودك في Instant Gaming
 
+// خريطة المتاجر (تستخدم فقط لعرض الأيقونات والأسماء)
+const AFFILIATE_STORES = {
+    "default": {
+        url: "https://www.instant-gaming.com/en/search/?q={GAME_NAME}" + MY_IG_ID
+    }
+};
+
+let storesMap = {}; 
+
 // ==========================================
 // 1. الألعاب اليدوية (Instant Gaming)
 // ==========================================
@@ -44,7 +53,13 @@ const manualGames = [
     }
 ];
 
-let storesMap = {}; 
+// ==========================================
+// HELPER: SMART LINK GENERATOR
+// ==========================================
+function getSmartAffiliateLink(gameName) {
+    const cleanName = encodeURIComponent(gameName.trim());
+    return AFFILIATE_STORES["default"].url.replace("{GAME_NAME}", cleanName);
+}
 
 // ==========================================
 // RENDER FUNCTION
@@ -57,7 +72,6 @@ function renderGame(game) {
     const card = document.createElement('div');
     card.className = 'game-card';
     
-    // صورة Steam عالية الجودة
     let highQualityImage = game.image;
     if (!game.isManual && game.steamAppID && game.steamAppID !== "null" && game.steamAppID !== "0") {
         highQualityImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.steamAppID}/header.jpg`;
@@ -71,9 +85,9 @@ function renderGame(game) {
         buttonHtml = `<a href="${finalLink}" target="_blank" class="btn-buy" style="background:#ffaa00; color:#000; border-color:#ffaa00;">BEST DEAL ⭐</a>`;
         cardBorder = "border: 1px solid #ffaa00;";
     } else {
-        // زر يفتح المودال
         const safeName = game.name.replace(/'/g, "\\'");
-        buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
+        // نمرر steamAppID للمودال
+        buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}', '${game.steamAppID}')" class="btn-buy">View Deals ↗</button>`;
     }
 
     const discountBadge = game.discount ? `<div class="discount-badge" style="${game.isManual ? 'background:#ffaa00; color:#000;' : ''}">${game.discount}</div>` : '';
@@ -149,12 +163,12 @@ async function initStore() {
 }
 
 // ==========================================
-// 3. MODAL LOGIC (تم تفعيل البحث في جوجل هنا ✅)
+// 3. MODAL LOGIC (تم تفعيل الدخول المباشر "I'm Feeling Lucky")
 // ==========================================
 const modal = document.getElementById('game-modal');
 const modalList = document.getElementById('modal-deals-list');
 
-async function openGameModal(gameID, title, image) {
+async function openGameModal(gameID, title, image, steamAppID) {
     if(!modal) return;
     
     document.getElementById('modal-title').innerText = title;
@@ -176,32 +190,29 @@ async function openGameModal(gameID, title, image) {
             const savingsVal = parseFloat(deal.savings);
             const savingsStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
 
-            // ========================================================
-            // 👇👇 منطق البحث في جوجل (Google Search Logic) 👇👇
-            // ========================================================
-            
             let finalLink = "";
             let buttonText = "GO ↗";
             let buttonStyle = "";
 
-            // 1. إذا كان المتجر Instant Gaming -> نستخدم رابطك الربحي (بحث داخل المتجر)
+            // --- الحالة 1: Instant Gaming (رابطك الربحي) ---
             if (storeInfo.name.toLowerCase().includes('instant') || deal.storeID === "25") {
                 const cleanName = encodeURIComponent(title.trim());
                 finalLink = `https://www.instant-gaming.com/en/search/?q=${cleanName}${MY_IG_ID}`;
                 buttonText = "Buy Now ⭐";
                 buttonStyle = "border-color: #ffaa00; color: #ffaa00;";
             } 
-            // 2. باقي المتاجر (GamersGate, Epic, Steam, etc.) -> بحث في جوجل
+            // --- الحالة 2: Steam (رابط مباشر نظيف) ---
+            else if (deal.storeID === "1" && steamAppID && steamAppID !== "null") {
+                finalLink = `https://store.steampowered.com/app/${steamAppID}`;
+                buttonText = "Steam ↗";
+            }
+            // --- الحالة 3: باقي المتاجر (الدخول المباشر لأول نتيجة بحث) ---
             else {
-                // نصنع جملة البحث: اسم اللعبة + اسم المتجر + كلمة شراء
-                // مثال: GTA V GamersGate Buy
-                const searchQuery = `${title} ${storeInfo.name} Buy`;
-                
-                // تحويلها لرابط بحث جوجل
-                finalLink = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-                
-                // جعل الزر يبدو كأنه زر بحث
-                buttonText = "Search 🔍"; 
+                // نستخدم ميزة !ducky للدخول المباشر لأول نتيجة بحث
+                // الصيغة: !ducky + اسم اللعبة + اسم المتجر + كلمة buy
+                const query = `!ducky ${title} ${storeInfo.name} Buy`;
+                finalLink = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+                buttonText = "GO ↗"; 
             }
 
             const row = document.createElement('div');
@@ -286,7 +297,7 @@ async function performSearch(query) {
             const safeName = game.external.replace(/'/g, "\\'");
             
             item.onclick = () => {
-                openGameModal(game.gameID, safeName, game.thumb); 
+                openGameModal(game.gameID, safeName, game.thumb, game.steamAppID || null); 
                 searchDropdown.classList.remove('active');
                 searchInput.value = ''; 
             };
