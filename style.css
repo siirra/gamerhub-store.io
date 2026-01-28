@@ -126,6 +126,23 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     background: #ff4444; color: #fff; font-size: 10px; font-weight: bold;
     padding: 3px 6px; border-radius: 3px;
 }
+/* جعل رابط اللوقو يبدو كزر حقيقي */
+.logo-link {
+    text-decoration: none; /* إزالة الخط السفلي */
+    color: inherit;       /* يرث اللون الأبيض */
+    cursor: pointer;      /* يظهر شكل اليد عند المرور */
+    transition: transform 0.3s ease; /* تنعيم الحركة */
+    display: inline-block;
+}
+
+/* تأثير التوهج والتكبير عند مرور الماوس على اللوقو */
+.logo-link:hover {
+    transform: scale(1.1); /* تكبير بسيط */
+}
+
+.logo-link:hover .logo span {
+    text-shadow: 0 0 15px var(--primary); /* زيادة توهج الحرف H */
+}
 
 /* --- Footer --- */
 footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
