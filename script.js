@@ -3,7 +3,7 @@
 // ==========================================
 const MY_IG_ID = '?igr=gamer-1c110ad'; // كودك في Instant Gaming
 
-// خريطة المتاجر (تستخدم فقط لعرض الأيقونات والأسماء)
+// خريطة المتاجر
 const AFFILIATE_STORES = {
     "default": {
         url: "https://www.instant-gaming.com/en/search/?q={GAME_NAME}" + MY_IG_ID
@@ -54,10 +54,9 @@ const manualGames = [
 ];
 
 // ==========================================
-// HELPER: SMART LINK GENERATOR (المولد الذكي)
+// HELPER: SMART LINK GENERATOR
 // ==========================================
 function getSmartAffiliateLink(gameName) {
-    // تنظيف الاسم لاستخدامه في الرابط
     const cleanName = encodeURIComponent(gameName.trim());
     return AFFILIATE_STORES["default"].url.replace("{GAME_NAME}", cleanName);
 }
@@ -73,7 +72,6 @@ function renderGame(game) {
     const card = document.createElement('div');
     card.className = 'game-card';
     
-    // منطق الصور عالية الجودة
     let highQualityImage = game.image;
     if (!game.isManual && game.steamAppID && game.steamAppID !== "null" && game.steamAppID !== "0") {
         highQualityImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.steamAppID}/header.jpg`;
@@ -87,7 +85,6 @@ function renderGame(game) {
         buttonHtml = `<a href="${finalLink}" target="_blank" class="btn-buy" style="background:#ffaa00; color:#000; border-color:#ffaa00;">BEST DEAL ⭐</a>`;
         cardBorder = "border: 1px solid #ffaa00;";
     } else {
-        // زر يفتح المودال
         const safeName = game.name.replace(/'/g, "\\'");
         buttonHtml = `<button onclick="openGameModal('${game.gameID}', '${safeName}', '${highQualityImage}')" class="btn-buy">View Deals ↗</button>`;
     }
@@ -165,7 +162,7 @@ async function initStore() {
 }
 
 // ==========================================
-// 3. MODAL LOGIC (تم الإصلاح: تطبيق الحيلة الذكية هنا)
+// 3. MODAL LOGIC (تم إعادة الروابط المباشرة الصحيحة هنا ✅)
 // ==========================================
 const modal = document.getElementById('game-modal');
 const modalList = document.getElementById('modal-deals-list');
@@ -187,19 +184,18 @@ async function openGameModal(gameID, title, image) {
 
         const deals = data.deals.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
-        // 👇👇 هنا الإصلاح الأساسي 👇👇
-        // نقوم بتوليد رابطك الذكي باستخدام عنوان اللعبة
-        const smartAffiliateLink = getSmartAffiliateLink(title);
-
         deals.forEach(deal => {
             const storeInfo = storesMap[deal.storeID] || { name: 'Store', icon: '' };
             const savingsVal = parseFloat(deal.savings);
             const savingsStr = savingsVal > 0 ? `-${Math.round(savingsVal)}%` : '';
 
+            // 👇👇 العودة للروابط المباشرة (CheapShark Redirect) 👇👇
+            // هذا الرابط يأخذك للمتجر الصحيح (Steam, Epic, etc.)
+            const directLink = `https://www.cheapshark.com/redirect?dealID=${deal.dealID}`;
+
             const row = document.createElement('div');
             row.className = 'deal-row';
             
-            // في زر GO، وضعنا smartAffiliateLink بدلاً من رابط CheapShark
             row.innerHTML = `
                 <div class="store-name">
                     <img src="${storeInfo.icon}" class="store-icon-img" onerror="this.style.display='none'">
@@ -208,7 +204,7 @@ async function openGameModal(gameID, title, image) {
                 <div class="deal-actions">
                     ${savingsStr ? `<span class="deal-discount">${savingsStr}</span>` : ''}
                     <span class="deal-price">$${deal.price}</span>
-                    <a href="${smartAffiliateLink}" target="_blank" class="btn-go-deal">GO ↗</a>
+                    <a href="${directLink}" target="_blank" class="btn-go-deal">GO ↗</a>
                 </div>
             `;
             modalList.appendChild(row);
@@ -278,6 +274,7 @@ async function performSearch(query) {
             
             const safeName = game.external.replace(/'/g, "\\'");
             
+            // عند الضغط على نتيجة البحث، نفتح المودال لعرض الروابط المباشرة
             item.onclick = () => {
                 openGameModal(game.gameID, safeName, game.thumb); 
                 searchDropdown.classList.remove('active');
