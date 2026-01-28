@@ -271,6 +271,63 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
 .nav-store-link:active {
     transform: translateY(1px) scale(0.98);
 }
+/* --- Navbar Layout --- */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* يوزع العناصر (يسار - يمين) */
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed; width: 100%; top: 0; z-index: 1000;
+    border-bottom: 1px solid #222;
+}
+
+/* الحاوية اليسرى (اللوقو + الزر) */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* مسافة جيدة بين اللوقو والزر */
+}
+
+.vertical-divider {
+    width: 1px; height: 30px; background: #333;
+}
+
+/* --- تصميم زر المتجر النيون (Nav Store Button) --- */
+.nav-store-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 25px; /* حجم الزر */
+    
+    background: rgba(255, 170, 0, 0.05); /* خلفية شفافة جداً */
+    border: 1px solid #ffaa00;          /* حدود برتقالية */
+    color: #ffaa00;                     /* لون النص */
+    
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    border-radius: 50px; /* كبسولة */
+    
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.1); /* توهج خفيف */
+}
+
+/* تأثير الهوفر (يشتعل الزر) */
+.nav-store-btn:hover, .nav-store-btn.active {
+    background: #ffaa00;       /* يمتلئ باللون */
+    color: #000;               /* النص أسود */
+    box-shadow: 0 0 30px rgba(255, 170, 0, 0.6); /* توهج قوي */
+    transform: translateY(-2px);
+    border-color: #ffaa00;
+}
+
+.nav-store-btn:active {
+    transform: scale(0.95);
+}
 
 /* --- Footer --- */
 footer { padding: 50px 10%; border-top: 1px solid #222; background: #050505; text-align: center; }
