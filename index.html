@@ -3,114 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamerHub Official Store</title>
+    <meta name="description" content="GamerHub Official Store - Best Game Deals and Keys">
+    <title>GamerHub Store | Official Market</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* تعديلات خاصة بالموقع فقط ليكون بعرض كامل */
-        body { width: 100%; height: auto; overflow-y: auto; background-color: #0f0f0f; }
-        .main-wrapper { display: block; max-width: 1200px; margin: 0 auto; height: auto; padding: 20px; }
+        /* تحسينات إضافية للمتجر */
+        body { width: 100%; height: auto; overflow-y: auto; background-color: #0f0f0f; font-family: 'Segoe UI', sans-serif; }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
         
-        /* تحسين الهيدر */
+        /* هيدر احترافي */
         .site-header { 
-            text-align: center; padding: 60px 20px; 
-            background: linear-gradient(180deg, rgba(0, 255, 136, 0.05) 0%, transparent 100%);
+            text-align: center; padding: 80px 20px; 
+            background: radial-gradient(circle at center, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
             border-bottom: 1px solid #222; margin-bottom: 40px;
         }
         
         /* شبكة المنتجات */
         .store-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 25px;
             padding: 20px 0;
         }
 
-        /* تعديل البطاقات لتناسب الموقع */
+        /* تصميم البطاقة الذكي */
         .game-card { 
-            height: auto; flex-direction: column; align-items: flex-start; 
-            padding: 15px; border: 1px solid #333; background: #161616;
+            height: 100%; display: flex; flex-direction: column; 
+            background: #161616; border: 1px solid #333; 
+            border-radius: 12px; overflow: hidden; transition: 0.3s;
+            position: relative;
         }
-        .game-img { width: 100%; height: 160px; margin-bottom: 15px; }
-        .game-info { width: 100%; }
+        .game-card:hover { transform: translateY(-5px); border-color: #00ff88; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        .game-img { width: 100%; height: 150px; object-fit: cover; }
+        
+        .card-content { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        
+        .game-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 10px; flex: 1; }
+        
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px solid #222; }
+        
+        .badge-discount { background: #ff4444; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        
         .buy-btn { 
-            width: 100%; display: block; text-align: center; margin-top: 15px; 
-            padding: 12px; font-size: 14px; 
+            display: block; text-align: center; margin-top: 15px; 
+            background: #00ff88; color: #000; padding: 10px; 
+            border-radius: 6px; font-weight: 900; text-decoration: none; 
+            transition: 0.2s;
         }
+        .buy-btn:hover { background: #fff; box-shadow: 0 0 15px #00ff88; }
     </style>
 </head>
 <body>
 
     <div class="site-header">
-        <div class="logo-wrapper" style="width: 80px; height: 80px; margin: 0 auto 20px auto;">
-            <h1 class="logo" style="font-size: 40px;">G<span>H</span></h1>
-        </div>
-        <h1 style="color: #fff; font-size: 36px; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px;">
-            GamerHub <span style="color: #00ff88;">Store</span>
+        <h1 style="font-size: 50px; margin: 0; color: white; font-weight: 900;">
+            G<span style="color:#00ff88;">H</span> STORE
         </h1>
-        <p style="color: #888; font-size: 14px;">Premium Game Keys & Exclusive Deals</p>
+        <p style="color: #888; margin-top: 10px; letter-spacing: 1px;">OFFICIAL EXTENSION MARKETPLACE</p>
     </div>
 
     <div class="main-wrapper">
+        <div class="neon-section-title" style="margin-bottom: 20px;">⚡ TRENDING GAMES</div>
         
-        <div class="neon-section-title" style="font-size: 14px;">🔥 HOTTEST DEALS THIS WEEK</div>
-
-        <div class="store-grid">
-            
-            <div class="game-card">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg" class="game-img">
-                <div class="game-info">
-                    <div class="game-name" style="font-size: 18px;">Red Dead Redemption 2</div>
-                    <div class="game-price-row" style="margin-top: 10px; justify-content: space-between;">
-                        <span class="old-price" style="font-size: 14px;">$59.99</span>
-                        <span class="new-price" style="font-size: 20px;">$19.99</span>
-                    </div>
-                    <a href="https://www.g2a.com/n/YOUR_REF_LINK" target="_blank" class="buy-btn">BUY KEY NOW ⚡</a>
-                </div>
+        <div class="store-grid" id="products-container">
             </div>
-
-            <div class="game-card">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" class="game-img">
-                <div class="game-info">
-                    <div class="game-name" style="font-size: 18px;">Elden Ring</div>
-                    <div class="game-price-row" style="margin-top: 10px; justify-content: space-between;">
-                        <span class="discount-tag">-30%</span>
-                        <span class="new-price" style="font-size: 20px;">$41.99</span>
-                    </div>
-                    <a href="#" class="buy-btn">BUY KEY NOW ⚡</a>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" class="game-img">
-                <div class="game-info">
-                    <div class="game-name" style="font-size: 18px;">GTA V: Premium</div>
-                    <div class="game-price-row" style="margin-top: 10px; justify-content: space-between;">
-                        <span class="old-price" style="font-size: 14px;">$29.99</span>
-                        <span class="new-price" style="font-size: 20px;">$9.50</span>
-                    </div>
-                    <a href="#" class="buy-btn">BUY KEY NOW ⚡</a>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="game-img">
-                <div class="game-info">
-                    <div class="game-name" style="font-size: 18px;">CS2 Prime Status</div>
-                    <div class="game-price-row" style="margin-top: 10px; justify-content: space-between;">
-                        <span class="discount-tag">HOT</span>
-                        <span class="new-price" style="font-size: 20px;">$13.49</span>
-                    </div>
-                    <a href="#" class="buy-btn">BUY KEY NOW ⚡</a>
-                </div>
-            </div>
-
+        
+        <div style="text-align: center; margin-top: 60px; color: #444; font-size: 12px; padding-bottom: 20px;">
+            &copy; 2026 GamerHub Project. Prices updated daily.
         </div>
-
-        <div style="text-align: center; margin-top: 50px; color: #555; font-size: 12px;">
-            &copy; 2026 GamerHub. All rights reserved. <br> Powered by GitHub Pages.
-        </div>
-
     </div>
 
+    <script>
+        // ======================================================
+        // 1. قاعدة البيانات (عدل هنا فقط لإضافة ألعاب جديدة!)
+        // ======================================================
+        const gamesDB = [
+            {
+                name: "Elden Ring: Shadow of the Erdtree",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+                oldPrice: 59.99,
+                price: 39.99,
+                link: "https://www.g2a.com/YOUR_LINK_HERE" // ضع رابط الأفلييت هنا
+            },
+            {
+                name: "Call of Duty: Modern Warfare III",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2519060/header.jpg",
+                oldPrice: 69.99,
+                price: 45.00,
+                link: "#"
+            },
+            {
+                name: "Cyberpunk 2077: Ultimate",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+                oldPrice: 59.99,
+                price: 29.99,
+                link: "#"
+            },
+            {
+                name: "Red Dead Redemption 2",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
+                oldPrice: 59.99,
+                price: 19.50,
+                link: "#"
+            },
+            {
+                name: "Minecraft Java & Bedrock",
+                image: "https://image.api.playstation.com/vulcan/img/rnd/202112/1014/Un5S0s2s.png", // صورة خارجية
+                oldPrice: 29.99,
+                price: 15.99,
+                link: "#"
+            },
+            {
+                name: "EA SPORTS FC 25",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2669320/header.jpg",
+                oldPrice: 69.99,
+                price: 34.99,
+                link: "#"
+            }
+        ];
+
+        // ======================================================
+        // 2. المحرك (يقوم برسم الألعاب تلقائياً)
+        // ======================================================
+        const container = document.getElementById('products-container');
+        
+        let htmlContent = '';
+        
+        gamesDB.forEach(game => {
+            // حساب نسبة الخصم تلقائياً
+            const discount = Math.round(((game.oldPrice - game.price) / game.oldPrice) * 100);
+            
+            htmlContent += `
+            <div class="game-card">
+                <div style="position:relative;">
+                    <img src="${game.image}" class="game-img">
+                    <div style="position:absolute; top:10px; right:10px; background:#ff4444; color:white; padding:2px 8px; border-radius:4px; font-weight:bold; font-size:12px; box-shadow:0 2px 5px rgba(0,0,0,0.5);">
+                        -${discount}%
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="game-title">${game.name}</div>
+                    <div class="price-row">
+                        <span style="text-decoration: line-through; color: #666; font-size: 13px;">$${game.oldPrice}</span>
+                        <span style="color: #00ff88; font-weight: 900; font-size: 20px;">$${game.price}</span>
+                    </div>
+                    <a href="${game.link}" target="_blank" class="buy-btn">BUY KEY NOW ⚡</a>
+                </div>
+            </div>
+            `;
+        });
+
+        container.innerHTML = htmlContent;
+    </script>
 </body>
 </html>
