@@ -605,6 +605,121 @@ body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: h
     box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     pointer-events: none; /* لكي لا تعيق الضغط على البطاقة */
 }
+/* --- تنسيق حاوية البحث (في الوسط) --- */
+.search-container {
+    flex: 1; /* يأخذ المساحة المتبقية في الوسط */
+    max-width: 500px; /* أقصى عرض */
+    margin: 0 40px; /* مسافة عن اليمين واليسار */
+    position: relative; /* ضروري لتموضع القائمة المنسدلة */
+}
+
+/* صندوق البحث نفسه */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #161616;
+    border: 1px solid #333;
+    border-radius: 50px; /* حواف دائرية بالكامل */
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+/* تأثير التوهج عند الكتابة */
+.search-box:focus-within {
+    border-color: var(--primary); /* اللون الأخضر */
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+    background: #0a0a0a;
+}
+
+.search-icon {
+    color: #666;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.search-box:focus-within .search-icon {
+    color: var(--primary);
+}
+
+/* حقل الإدخال */
+.search-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    font-weight: 500;
+}
+
+.search-box input::placeholder {
+    color: #555;
+}
+
+/* --- القائمة المنسدلة (Dropdown) --- */
+.search-dropdown {
+    position: absolute;
+    top: 110%; /* يظهر أسفل الشريط مباشرة */
+    left: 0;
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    z-index: 2000;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none; /* مخفي افتراضياً */
+    flex-direction: column;
+}
+
+.search-dropdown.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+/* عنصر النتيجة الواحد */
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-item:last-child { border-bottom: none; }
+
+.search-item:hover {
+    background: rgba(0, 255, 136, 0.05);
+}
+
+.search-item img {
+    width: 50px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.search-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-item-title {
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.search-item-price {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 900;
+}
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 .btn-go-deal:hover { background: #00ff88; color: #000; }
 

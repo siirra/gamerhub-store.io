@@ -220,5 +220,89 @@ if(glitchText) {
         glitchText.style.textShadow = Math.random() > 0.95 ? '2px 0 red, -2px 0 blue' : 'none';
     }, 100);
 }
+// ==========================================
+// 4. SMART SEARCH SYSTEM (نظام البحث الذكي)
+// ==========================================
+
+const searchInput = document.getElementById('store-search-input');
+const searchDropdown = document.getElementById('search-results-dropdown');
+let searchTimeout = null;
+
+if (searchInput) {
+    // الاستماع للكتابة
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+
+        // تنظيف المؤقت السابق (Debounce) لمنع الطلبات الكثيرة
+        clearTimeout(searchTimeout);
+
+        if (query.length < 2) {
+            searchDropdown.classList.remove('active');
+            searchDropdown.innerHTML = '';
+            return;
+        }
+
+        // انتظار 300 ميلي ثانية بعد توقف الكتابة قبل البحث
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    });
+
+    // إخفاء القائمة عند الضغط خارجها
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+            searchDropdown.classList.remove('active');
+        }
+    });
+}
+
+async function performSearch(query) {
+    try {
+        // عرض حالة التحميل
+        searchDropdown.innerHTML = '<div style="padding:15px; text-align:center; color:#666; font-size:12px;">Searching...</div>';
+        searchDropdown.classList.add('active');
+
+        // جلب البيانات من API
+        const res = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${query}&limit=6`);
+        const games = await res.json();
+
+        searchDropdown.innerHTML = ''; // مسح التحميل
+
+        if (games.length === 0) {
+            searchDropdown.innerHTML = '<div style="padding:15px; text-align:center; color:#ff4444; font-size:12px;">No games found.</div>';
+            return;
+        }
+
+        // عرض النتائج
+        games.forEach(game => {
+            const item = document.createElement('div');
+            item.className = 'search-item';
+            
+            // تنظيف الاسم لاستخدامه في الدالة
+            const safeName = game.external.replace(/'/g, "\\'");
+            
+            // عند الضغط، نفتح المودال ونخفي القائمة
+            item.onclick = () => {
+                openGameModal(game.gameID, safeName, game.thumb);
+                searchDropdown.classList.remove('active');
+                searchInput.value = ''; // تفريغ الحقل
+            };
+
+            item.innerHTML = `
+                <img src="${game.thumb}" alt="${game.external}">
+                <div class="search-item-info">
+                    <span class="search-item-title">${game.external}</span>
+                    <span class="search-item-price">Best: $${game.cheapest}</span>
+                </div>
+            `;
+            
+            searchDropdown.appendChild(item);
+        });
+
+    } catch (e) {
+        console.error(e);
+        searchDropdown.classList.remove('active');
+    }
+}
 
 initStore();
