@@ -3,268 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Protocol - GamerHub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Privacy Policy - GamerHub</title>
     
     <style>
         /* =========================================
-           PRIVACY PAGE EXCLUSIVE STYLES
-           (Cyberpunk / Gamer Aesthetic)
+           OFFICIAL LEGAL DOCUMENT STYLE
+           (Minimalist, Clean, Trustworthy)
            ========================================= */
         
+        :root {
+            --bg-page: #0d0d0d;       /* خلفية الصفحة داكنة جداً */
+            --bg-document: #161616;   /* خلفية المستند أفتح قليلاً */
+            --border: #333;           /* حدود ناعمة */
+            --text-primary: #e6e6e6;  /* أبيض مريح للعين */
+            --text-secondary: #a0a0a0;/* رمادي للنصوص الفرعية */
+            --accent: #fff;           /* التمييز أبيض فقط لزيادة الرسمية */
+            --link: #58a6ff;          /* لون روابط قياسي وهادئ */
+        }
+
         body {
-            background-color: #050505;
-            color: #e0e0e0;
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
             padding: 40px 20px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Header Section --- */
-        .page-header {
-            text-align: center;
-            margin-bottom: 60px;
-            padding-top: 40px;
-        }
-
-        .page-title {
-            font-size: 48px;
-            font-weight: 900;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-        }
-
-        .page-subtitle {
-            font-family: 'Consolas', monospace;
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            padding: 5px 15px;
+        /* حاوية المستند - تشبه الورقة الرسمية */
+        .document-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-document);
+            padding: 60px 80px; /* هوامش داخلية واسعة */
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
             border-radius: 4px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            display: inline-block;
-            font-size: 12px;
         }
 
-        /* --- Grid Layout for Policy --- */
-        .policy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 25px;
+        /* الهيدر */
+        .doc-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
             margin-bottom: 40px;
         }
 
-        /* --- Policy Cards --- */
-        .policy-card {
-            background: #111;
-            border: 1px solid #222;
-            padding: 30px;
-            border-radius: 12px;
-            position: relative;
-            transition: all 0.3s ease;
-            overflow: hidden;
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
-        .policy-card:hover {
-            border-color: #00ff88;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
-            transform: translateY(-5px);
+        .meta-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-family: 'Monaco', 'Consolas', monospace; /* خط رقمي للتاريخ */
         }
 
-        .policy-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, #111, #00ff88, #111);
-            opacity: 0.5;
-        }
-
-        .card-icon {
-            font-size: 24px;
-            margin-bottom: 15px;
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-
-        .card-title {
+        /* العناوين الفرعية */
+        h2 {
             font-size: 18px;
-            font-weight: 800;
-            color: #fff;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 40px;
             margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #222;
         }
 
-        .card-content {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #aaa;
+        h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 25px;
+            margin-bottom: 10px;
         }
 
-        .card-content ul {
+        /* النصوص */
+        p, li {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul {
             padding-left: 20px;
-            margin-top: 10px;
+            margin-bottom: 20px;
         }
-        
-        .card-content li {
+
+        li {
             margin-bottom: 8px;
-            color: #ccc;
         }
 
-        .highlight {
-            color: #00ff88;
-            font-weight: bold;
+        /* تمييز النصوص */
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
-        /* --- Full Width Sections --- */
-        .full-width-card {
-            grid-column: 1 / -1;
-            background: linear-gradient(180deg, #111 0%, #0d0d0d 100%);
-        }
-
-        /* --- Contact Box --- */
-        .contact-box {
-            text-align: center;
-            margin-top: 60px;
-            padding: 40px;
-            border-top: 1px solid #222;
-        }
-
-        .email-btn {
-            background: transparent;
-            border: 1px solid #00ff88;
-            color: #00ff88;
-            padding: 15px 40px;
-            font-size: 16px;
-            font-weight: bold;
+        /* الروابط */
+        a {
+            color: var(--link);
             text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* مربع التواصل */
+        .contact-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .email-link {
+            font-family: monospace;
+            font-size: 14px;
+            background: #222;
+            padding: 8px 12px;
             border-radius: 4px;
-            transition: 0.3s;
-            display: inline-block;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            color: var(--text-primary);
         }
 
-        .email-btn:hover {
-            background: #00ff88;
-            color: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+        /* زر العودة */
+        .back-nav {
+            max-width: 800px;
+            margin: 0 auto 20px;
         }
+        .back-btn {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        .back-btn:hover { color: var(--text-primary); }
 
-        /* Footer override */
-        footer { margin-top: 0; border-top: 1px solid #222; }
-
-        @media (max-width: 768px) {
-            .policy-grid { grid-template-columns: 1fr; }
-            .page-title { font-size: 32px; }
+        /* للتجاوب مع الموبايل */
+        @media (max-width: 600px) {
+            .document-container { padding: 30px 20px; }
+            h1 { font-size: 24px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar" style="position: sticky; top: 0; z-index: 100; background: rgba(15,15,15,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #222;">
-        <div class="nav-brand">
-            <a href="index.html" class="logo-link">
-                <div class="logo">G<span>H</span></div>
-            </a>
-        </div>
-        <a href="index.html" class="btn-download" style="background:#222; color:#fff; border:1px solid #333;">Back to Dashboard</a>
-    </nav>
-
-    <div class="container">
-        
-        <header class="page-header">
-            <div class="page-title">PRIVACY PROTOCOL</div>
-            <div class="page-subtitle">STATUS: ACTIVE // LAST UPDATED: FEB 2026</div>
-        </header>
-
-        <div class="policy-grid">
-            
-            <div class="policy-card full-width-card">
-                <div class="card-icon">🛡️</div>
-                <div class="card-title">01. Core Philosophy (Local Processing)</div>
-                <div class="card-content">
-                    <p>GamerHub is engineered with <span class="highlight">Privacy by Design</span>. We operate as a client-side tool, meaning we do not own, operate, or rent servers to store your personal gaming data.</p>
-                    <p>All data fetched (Friends, Prices, Stats) is processed and stored locally on your machine using <code>chrome.storage.local</code>. Your data never leaves your device to reach us.</p>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="card-icon">🔑</div>
-                <div class="card-title">02. Permissions Usage</div>
-                <div class="card-content">
-                    <ul>
-                        <li><span class="highlight">Cookies:</span> Used solely to access your active <strong>steamcommunity.com</strong> session. This enables friend list syncing without re-login. We <strong>NEVER</strong> access your password.</li>
-                        <li><span class="highlight">Storage:</span> Used to save your settings, watchlist, and API keys locally.</li>
-                        <li><span class="highlight">Host Permissions:</span> Required to communicate with Steam, Faceit, and CheapShark APIs directly from your browser.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="card-icon">📡</div>
-                <div class="card-title">03. Third-Party Connections</div>
-                <div class="card-content">
-                    <p>The extension communicates directly with the following endpoints:</p>
-                    <ul>
-                        <li><strong>Steam APIs:</strong> Profile & Friend Data.</li>
-                        <li><strong>Faceit API:</strong> Player Stats & Elo.</li>
-                        <li><strong>CheapShark/GamerPower:</strong> Prices & Giveaways.</li>
-                        <li><strong>Cloudflare/AWS:</strong> Network Speed Tests.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="card-icon">💸</div>
-                <div class="card-title">04. Monetization & Affiliates</div>
-                <div class="card-content">
-                    <p>GamerHub is free. However, to support development, some links in the "Deals" tab may be <span class="highlight">affiliate links</span> (e.g., Instant Gaming, G2A). If you purchase a game through these links, we may earn a small commission at no extra cost to you.</p>
-                </div>
-            </div>
-
-            <div class="policy-card full-width-card">
-                <div class="card-icon">🗑️</div>
-                <div class="card-title">05. Data Control & Removal</div>
-                <div class="card-content">
-                    <p>Since we do not store your data on our servers, you have full control:</p>
-                    <ul>
-                        <li><strong>To Delete Data:</strong> Simply uninstall the extension from Chrome. This instantly wipes all locally stored keys and settings.</li>
-                        <li><strong>To Reset:</strong> You can use the "Delete Key" buttons in the extension settings to remove API keys individually.</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="contact-box">
-            <h3 style="color:#fff; margin-bottom:10px;">HAVE QUESTIONS?</h3>
-            <p style="color:#888; font-size:14px;">Contact the developer directly regarding privacy concerns.</p>
-            <a href="mailto:djeblisiradje@yahoo.com" class="email-btn">djeblisiradje@yahoo.com</a>
-        </div>
-
+    <div class="back-nav">
+        <a href="index.html" class="back-btn">← Return to GamerHub Website</a>
     </div>
 
-    <footer>
-        <div class="footer-content" style="text-align:center; padding:20px; color:#444; font-size:12px;">
-            <p>© 2026 GamerHub. Designed for Gamers.</p>
-        </div>
+    <article class="document-container">
+        
+        <header class="doc-header">
+            <h1>Privacy Policy</h1>
+            <div class="meta-info">Effective Date: February 1, 2026 • Version 1.0</div>
+        </header>
+
+        <section>
+            <p>GamerHub ("we", "our", or "us") provides this Privacy Policy to describe our practices regarding the collection, use, and disclosure of information through the GamerHub Chrome Extension (the "Service"). By using the Service, you agree to the collection and use of information in accordance with this policy.</p>
+
+            <h2>1. Data Collection and Storage</h2>
+            <p>We adhere to a strict <strong>local-first architecture</strong>. GamerHub does not create user accounts on external servers, nor do we track your browsing history outside of the specific game services required for functionality.</p>
+            <ul>
+                <li><strong>Local Storage:</strong> All user preferences, friend lists, and API keys are stored locally on your device using the browser's <code>chrome.storage.local</code> API.</li>
+                <li><strong>No Remote Database:</strong> We do not operate a backend server to store personal user data. We have no access to your data.</li>
+            </ul>
+
+            <h2>2. Permissions and Technical Usage</h2>
+            <p>The extension requests the minimum set of permissions necessary to operate. Below is a transparent breakdown of each permission:</p>
+            
+            <h3>Cookies</h3>
+            <p>Used strictly to authenticate your requests to <strong>steamcommunity.com</strong>. The extension uses your existing browser session cookies to fetch your friend list and profile status securely. We do not access, store, or transmit your credentials (username/password).</p>
+
+            <h3>Host Permissions</h3>
+            <p>The extension makes direct XMLHttpRequests (XHR) or Fetch API calls to the following third-party endpoints to retrieve real-time data:</p>
+            <ul>
+                <li><strong>Valve Corporation:</strong> <code>api.steampowered.com</code> (Friend activity)</li>
+                <li><strong>Faceit:</strong> <code>open.faceit.com</code> (Player statistics)</li>
+                <li><strong>CheapShark & GamerPower:</strong> <code>cheapshark.com</code> (Price data)</li>
+                <li><strong>Cloudflare & AWS:</strong> Used exclusively for the network latency and speed test features.</li>
+            </ul>
+
+            <h2>3. Monetization and Affiliate Disclosure</h2>
+            <p>GamerHub is provided free of charge. To sustain development costs, the Service may include affiliate links within the "Deals" section.</p>
+            <p>This means if you click on a link to a third-party retailer (such as Instant Gaming, G2A, or CDKeys) and make a purchase, we may receive a commission. This process is anonymous and does not increase the price you pay.</p>
+
+            <h2>4. Network Performance Tools</h2>
+            <p>The "Network" tab includes a ping and speed test utility. Using this feature initiates data transfer between your browser and public test servers (Cloudflare/AWS) to measure latency. This activity is transient and no logs of your IP address are retained by us.</p>
+
+            <h2>5. Data Retention and Deletion</h2>
+            <p>Since data is stored locally:</p>
+            <ul>
+                <li><strong>Retention:</strong> Data persists as long as the extension is installed.</li>
+                <li><strong>Deletion:</strong> You may delete all stored data by uninstalling the extension from your browser. Specific API keys can be removed via the in-app settings menu.</li>
+            </ul>
+
+            <div class="contact-section">
+                <h3>Contact Information</h3>
+                <p>For any questions regarding this Privacy Policy or our data practices, please contact:</p>
+                <div class="email-link">djeblisiradje@yahoo.com</div>
+            </div>
+        </section>
+
+    </article>
+
+    <footer style="text-align:center; padding:20px; color:#444; font-size:12px;">
+        &copy; 2026 GamerHub. All rights reserved.
     </footer>
 
 </body>
