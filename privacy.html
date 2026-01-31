@@ -4,18 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - GamerHub</title>
-    <link rel="stylesheet" href="website.css"> 
+    <link rel="stylesheet" href="style.css">
     
     <style>
-        body { background-color: #0a0a0a; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; }
+        /* تحسينات للقراءة */
         .privacy-wrapper {
-            max-width: 800px; margin: 120px auto 60px; padding: 40px;
-            background: #111; border: 1px solid #333; border-radius: 16px;
+            max-width: 800px;
+            margin: 120px auto 60px;
+            padding: 40px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 16px;
             box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
-        h1 { color: #fff; border-bottom: 2px solid #222; padding-bottom: 20px; }
-        h2 { color: #00ff88; margin-top: 30px; font-size: 20px; }
-        p { line-height: 1.8; color: #ccc; }
+        h1 { color: #fff; border-bottom: 2px solid #222; padding-bottom: 20px; margin-bottom: 30px; }
+        h2 { color: #00ff88; margin-top: 40px; font-size: 18px; border-left: 3px solid #00ff88; padding-left: 10px; }
+        h3 { color: #ccc; font-size: 14px; margin-top: 20px; text-decoration: underline; }
+        p { line-height: 1.7; color: #ccc; margin-bottom: 15px; font-size: 14px; }
+        ul { background: #161616; padding: 20px 40px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
+        li { margin-bottom: 10px; color: #bbb; font-size: 13px; }
+        strong { color: #fff; }
         .email-box {
             background: rgba(0, 255, 136, 0.05); border: 1px solid #00ff88;
             padding: 15px; border-radius: 8px; display: inline-block;
@@ -25,35 +33,75 @@
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="nav-brand">
-            <a href="index.html" class="logo-link"><div class="logo">G<span>H</span></div></a>
+            <a href="index.html" class="logo-link">
+                <div class="logo">G<span>H</span></div>
+            </a>
         </div>
-        <a href="index.html" class="btn-download" style="background:#222; color:#fff;">Back to Home</a>
+        <a href="index.html" class="btn-download" style="background:#222; color:#fff; border:1px solid #333;">Back to Home</a>
     </nav>
 
     <div class="privacy-wrapper">
         <h1>Privacy Policy</h1>
-        <p><strong>Last Updated:</strong> February 01, 2026</p>
+        <p style="color:#666;">Last Updated: February 01, 2026</p>
 
-        <p>GamerHub ("we", "our") respects your privacy. This policy explains how our extension interacts with your data.</p>
+        <p>GamerHub ("we", "our", or "us") provides this Privacy Policy to inform you of our policies regarding the collection, use, and disclosure of personal data when you use our Chrome Extension.</p>
 
-        <h2>1. No Data Collection</h2>
-        <p>We do not collect, store, or transmit your personal data to any external servers. All processing happens locally on your device.</p>
-
-        <h2>2. Permissions</h2>
+        <h2>1. Data Collection & Security (Local Processing)</h2>
+        <p>We are committed to <strong>Privacy by Design</strong>. GamerHub operates as a client-side tool.</p>
         <ul>
-            <li><strong>Storage:</strong> To save preferences locally.</li>
-            <li><strong>Cookies:</strong> To fetch Steam friends list securely via your active session.</li>
-            <li><strong>Host Permissions:</strong> To communicate with Steam, Faceit, and CheapShark APIs.</li>
+            <li><strong>No Remote Storage:</strong> We do not own, operate, or rent any servers to store your personal data. All data fetched (Friends list, Prices, Stats) is processed and stored locally on your device using <code>chrome.storage.local</code>.</li>
+            <li><strong>API Keys:</strong> If you provide your Steam or Faceit API keys, they are stored unencrypted but locally within your browser's secure storage area. They are never transmitted to us.</li>
         </ul>
 
-        <h2>3. Contact</h2>
-        <p>If you have questions, contact us at:</p>
+        <h2>2. Detailed Permissions Usage</h2>
+        <p>To function correctly, GamerHub requires specific permissions. Here is how we use each one:</p>
+        
+        <h3>A. Cookies (Critical Functionality)</h3>
+        <p>We use the <code>cookies</code> permission to access your active session on <strong>steamcommunity.com</strong>. This allows the extension to:</p>
+        <ul>
+            <li>Retrieve your friends list and their online status without requiring you to sign in again inside the extension.</li>
+            <li>We do <strong>NOT</strong> access, store, or transmit your password or login credentials.</li>
+        </ul>
+
+        <h3>B. Host Permissions (External Connections)</h3>
+        <p>The extension communicates directly with the following third-party services:</p>
+        <ul>
+            <li><strong>*.steampowered.com & *.steamcommunity.com:</strong> To fetch user profiles and friend activity.</li>
+            <li><strong>*.faceit.com:</strong> To fetch player statistics and Elo ratings (requires API Key).</li>
+            <li><strong>*.cheapshark.com & *.gamerpower.com:</strong> To fetch real-time game prices and free giveaways.</li>
+            <li><strong>*.cloudflare.com:</strong> Used solely for the "Network Speed Test" feature to measure download/upload latency.</li>
+        </ul>
+
+        <h2>3. Affiliate Disclosure & Monetization</h2>
+        <p>Transparency is key. GamerHub is a free-to-use extension, but we may earn revenue in the following ways:</p>
+        <p><strong>Affiliate Links:</strong> Some links to game stores (e.g., Instant Gaming, G2A, CDKeys) within the "Deals" section may be affiliate links. This means if you click on a link and make a purchase, we may receive a small commission at no extra cost to you. This helps support the development of the extension.</p>
+
+        <h2>4. Network & Speed Test</h2>
+        <p>The "Network" tab performs a real-time latency test (Ping) and bandwidth speed test. By using this feature, you acknowledge that the extension will send dummy data packets to <strong>Cloudflare</strong> and <strong>AWS DynamoDB</strong> endpoints to measure connection quality. No personal identifier is associated with these tests.</p>
+
+        <h2>5. User Rights & Data Removal</h2>
+        <p>Since all data is stored locally on your device:</p>
+        <ul>
+            <li>You can clear all stored data (API Keys, Watchlist, Settings) by simply removing the extension from Chrome.</li>
+            <li>You can manually clear cached data via the extension's "Settings" panel (e.g., "Delete Key").</li>
+        </ul>
+
+        <h2>6. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact the developer:</p>
         
         <div class="email-box">
             <a href="mailto:djeblisiradje@yahoo.com">djeblisiradje@yahoo.com</a>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 GamerHub. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
