@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - GamerHub</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* تنسيقات خاصة بصفحة الخصوصية فقط للقراءة المريحة */
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+        }
+
+        .privacy-wrapper {
+            max-width: 800px;
+            margin: 120px auto 60px; /* مسافة من الأعلى عشان الناف بار */
+            padding: 40px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 16px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: #00ff88; transform: translateX(-5px); }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #222;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #00ff88; /* اللون الأخضر الخاص بهويتك */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        ul {
+            background: #161616;
+            padding: 20px 40px;
+            border-radius: 8px;
+            border: 1px solid #222;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #bbb;
+        }
+
+        strong { color: #fff; }
+
+        .email-box {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 10px 20px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html" class="logo-link">
+                <div class="logo">G<span>H</span></div>
+            </a>
+        </div>
+        <a href="index.html" class="btn-download" style="background:#222; color:#fff; border:1px solid #333;">Back to Home</a>
+    </nav>
+
+    <div class="privacy-wrapper">
+        <a href="index.html" class="back-btn">← Return to Homepage</a>
+        
+        <h1>Privacy Policy</h1>
+        <p style="color:#666; font-size:13px;">Last Updated: February 01, 2026</p>
+
+        <p>GamerHub ("we", "our", or "us") respects your privacy. This Privacy Policy explains clearly how our Chrome Extension interacts with your data. We believe in transparency and <strong>privacy by design</strong>.</p>
+
+        <h2>1. No Data Collection</h2>
+        <p><strong>We do not collect, store, sell, or transmit your personal data to any external servers owned by GamerHub.</strong></p>
+        <p>All data processing happens locally on your machine or directly between your browser and the official game APIs (Steam, Faceit, CheapShark). We have no database of our users.</p>
+
+        <h2>2. Permissions Usage</h2>
+        <p>We request the minimum permissions necessary for the extension to function:</p>
+        <ul>
+            <li><strong>Storage:</strong> Used to save your settings (like API keys, watchlist, and theme preferences) locally in your browser.</li>
+            <li><strong>Cookies:</strong> Used to access your existing active session on <em>steamcommunity.com</em>. This allows the extension to fetch your friends list securely without asking for your login credentials.</li>
+            <li><strong>Alarms:</strong> Used to schedule background checks (e.g., checking for new game deals or friend activity) without keeping the popup open.</li>
+            <li><strong>Host Permissions:</strong> Required to fetch data from external gaming services (Steam API, Faceit API, CheapShark).</li>
+        </ul>
+
+        <h2>3. Third-Party Services</h2>
+        <p>GamerHub acts as a client-side dashboard. It communicates directly with the following third-party services on your behalf:</p>
+        <ul>
+            <li><strong>Valve Corporation (Steam):</strong> To retrieve friend status and profile info.</li>
+            <li><strong>Faceit:</strong> To retrieve player Elo and match stats.</li>
+            <li><strong>CheapShark & GamerPower:</strong> To retrieve game prices and free giveaways.</li>
+        </ul>
+        <p>We are not affiliated with Valve or Faceit. Your interaction with these services is governed by their respective privacy policies.</p>
+
+        <h2>4. Contact Us</h2>
+        <p>If you have any questions about this policy or the extension's security, please contact the developer at:</p>
+        
+        <div class="email-box">YOUR_EMAIL@GMAIL.COM</div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 GamerHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
