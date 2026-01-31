@@ -1,0 +1,146 @@
+/* =========================================
+   POPUP.CSS - GAMERHUB EXTENSION STYLE
+   ========================================= */
+:root {
+    --primary: #00ff88;
+    --bg-dark: #0a0a0a;
+    --sidebar-bg: #111;
+    --text-main: #fff;
+    --text-dim: #888;
+}
+
+body {
+    margin: 0; padding: 0;
+    width: 520px; height: 600px;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    display: flex;
+}
+
+/* --- تخطيط الصفحة (Main Wrapper) --- */
+.main-wrapper {
+    display: flex;
+    width: 100%; height: 100%;
+}
+
+/* --- القائمة الجانبية (Sidebar) --- */
+.side-nav {
+    width: 80px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #222;
+    display: flex; flex-direction: column;
+    align-items: center; padding: 20px 0;
+    z-index: 10;
+}
+
+.logo-wrapper { margin-bottom: 30px; cursor: default; }
+.logo { font-size: 24px; font-weight: 900; color: #fff; margin: 0; }
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex; flex-direction: column; gap: 15px;
+    width: 100%; align-items: center;
+}
+
+.tab-btn {
+    width: 50px; height: 50px;
+    background: transparent; border: none;
+    border-radius: 12px; cursor: pointer;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    transition: 0.3s; color: var(--text-dim);
+}
+
+.tab-btn:hover, .tab-btn.active {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--primary);
+}
+.tab-btn.active { border: 1px solid rgba(0, 255, 136, 0.3); }
+
+.tab-btn .icon { font-size: 20px; margin-bottom: 3px; }
+.tab-btn .label { font-size: 8px; font-weight: bold; text-transform: uppercase; }
+
+/* --- منطقة المحتوى (Content Area) --- */
+.content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+    background: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #0a0a0a 60%);
+}
+
+/* التبويبات */
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- العناوين --- */
+.neon-section-title {
+    font-size: 14px; font-weight: 900; color: #fff;
+    border-left: 3px solid var(--primary);
+    padding-left: 10px; margin-bottom: 20px;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* --- بطاقات الداشبورد --- */
+.dashboard-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;
+}
+
+.stat-card {
+    background: #161616; border: 1px solid #222;
+    border-radius: 10px; padding: 15px; text-align: center;
+}
+.stat-card .stat-icon { font-size: 18px; margin-bottom: 5px; }
+.stat-card span { display: block; font-size: 18px; font-weight: bold; color: #fff; }
+.stat-card p { font-size: 9px; color: #666; margin: 0; text-transform: uppercase; }
+
+/* --- بطاقة المستخدم (Steam) --- */
+.user-profile-card {
+    display: flex; align-items: center; gap: 15px;
+    background: linear-gradient(90deg, #111 0%, #0d0d0d 100%);
+    border: 1px solid #333; padding: 15px; border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.user-avatar-glow {
+    width: 50px; height: 50px; border-radius: 50%;
+    border: 2px solid var(--primary); box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.user-info-box { flex: 1; }
+.user-name-glitch { font-size: 14px; font-weight: bold; color: #fff; }
+.user-status-row { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+.status-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 5px var(--primary); }
+
+/* --- الأزرار التقنية --- */
+.tech-btn {
+    background: #222; color: #fff; border: 1px solid #444;
+    padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: bold;
+    cursor: pointer; transition: 0.2s;
+}
+.tech-btn.save { background: var(--primary); color: #000; border-color: var(--primary); }
+.tech-btn:hover { transform: scale(1.05); }
+
+/* --- زر التبرع --- */
+.nav-footer { margin-top: auto; padding-bottom: 20px; width: 100%; display: flex; justify-content: center; }
+#btn-donate { border: 1px solid #ffaa00; background: rgba(255,170,0,0.1); }
+#btn-donate:hover { background: #ffaa00; color: #000; box-shadow: 0 0 15px #ffaa00; }
+
+/* --- زر Pop-out --- */
+#btn-popout {
+    position: absolute; bottom: 10px; right: 10px;
+    background: #111; color: #666; border: 1px solid #333;
+    width: 25px; height: 25px; border-radius: 4px;
+    cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+}
+#btn-popout:hover { color: #fff; border-color: #fff; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
