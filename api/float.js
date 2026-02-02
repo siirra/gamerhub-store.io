@@ -8,26 +8,32 @@ export default async function handler(request, response) {
 
     const { url } = request.query;
 
-    // 1. التحقق من وجود الرابط
     if (!url) {
         return response.status(400).json({ error: 'No URL provided' });
     }
 
     try {
-        // 2. طلب البيانات من CSGOFloat
         const targetUrl = `https://api.csgofloat.com/?url=${encodeURIComponent(url)}`;
         const apiRes = await fetch(targetUrl);
 
-        // 3. قراءة رد CSGOFloat
-        const data = await apiRes.json();
+        // --- التعديل الجذري هنا: التحقق من نوع الرد قبل قراءته ---
+        const contentType = apiRes.headers.get("content-type");
+        let data;
 
-        // 4. تمرير حالة الرد كما هي (إذا كانت 200 أو 429 أو غيرها)
+        if (contentType && contentType.includes("application/json")) {
+            data = await apiRes.json();
+        } else {
+            // في حالة الخطأ 429 أو غيره، قد يكون الرد نصاً وليس JSON
+            const textBody = await apiRes.text();
+            data = { error: "Upstream Error", details: textBody };
+        }
+
+        // إرجاع حالة الرد كما هي (سواء 200 أو 429) للإضافة
         return response.status(apiRes.status).json(data);
 
     } catch (error) {
-        // خطأ حقيقي في السيرفر (مثل انقطاع النت)
         return response.status(500).json({ 
-            error: 'Server Error', 
+            error: 'Proxy Internal Error', 
             details: error.message 
         });
     }
