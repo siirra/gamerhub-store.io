@@ -1,42 +1,34 @@
-// الملف: api/float.js
-// هذا الكود يعمل كوسيط (Proxy) لتخطي حماية CORS
-
 export default async function handler(request, response) {
-    // 1. السماح للإضافة بالاتصال بهذا الرابط (CORS Headers)
+    // إعدادات السماح (CORS)
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // التعامل مع طلبات التحقق (Preflight)
-    if (request.method === 'OPTIONS') {
-        return response.status(200).end();
-    }
+    if (request.method === 'OPTIONS') return response.status(200).end();
 
-    // 2. استلام رابط الفحص من الإضافة
     const { url } = request.query;
 
+    // 1. التحقق من وجود الرابط
     if (!url) {
-        return response.status(400).json({ error: 'Missing url parameter' });
+        return response.status(400).json({ error: 'No URL provided' });
     }
 
     try {
-        // 3. السيرفر يطلب البيانات من CSGOFloat (السيرفرات لا تواجه مشكلة CORS)
-        // ملاحظة: نقوم بترميز الرابط لضمان وصوله بشكل صحيح
+        // 2. طلب البيانات من CSGOFloat
         const targetUrl = `https://api.csgofloat.com/?url=${encodeURIComponent(url)}`;
-        
         const apiRes = await fetch(targetUrl);
-        
-        if (!apiRes.ok) {
-            throw new Error(`CSGOFloat API responded with ${apiRes.status}`);
-        }
 
+        // 3. قراءة رد CSGOFloat
         const data = await apiRes.json();
 
-        // 4. إرسال البيانات النظيفة إلى الإضافة
-        return response.status(200).json(data);
+        // 4. تمرير حالة الرد كما هي (إذا كانت 200 أو 429 أو غيرها)
+        return response.status(apiRes.status).json(data);
 
     } catch (error) {
-        console.error("Proxy Error:", error);
-        return response.status(500).json({ error: 'Failed to fetch float data', details: error.message });
+        // خطأ حقيقي في السيرفر (مثل انقطاع النت)
+        return response.status(500).json({ 
+            error: 'Server Error', 
+            details: error.message 
+        });
     }
 }
